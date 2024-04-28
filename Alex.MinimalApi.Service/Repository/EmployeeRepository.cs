@@ -24,7 +24,7 @@ namespace Alex.MinimalApi.Service.Repository
                 //with children
                 return await _context.Employees
                    .Where(e => e.Id == id)
-                   .Include(c => c.TaxFile).ThenInclude(x => x.TaxFileRecords)
+                   .Include(c => c.TaxFile).ThenInclude(x => x!.TaxFileRecords)
                    .AsNoTracking()
                    .ProjectTo<Core.Employee>(_mapper.ConfigurationProvider)
                    .SingleOrDefaultAsync();
@@ -48,7 +48,7 @@ namespace Alex.MinimalApi.Service.Repository
             {
                 var myList = await _context.Employees
                     .Where(criteria)
-                    .Include(c => c.TaxFile).ThenInclude(x => x.TaxFileRecords)
+                    .Include(c => c.TaxFile).ThenInclude(x => x!.TaxFileRecords)
                     .AsNoTracking()
                     .ProjectTo<Core.Employee>(_mapper.ConfigurationProvider)
                     .ToListAsync();

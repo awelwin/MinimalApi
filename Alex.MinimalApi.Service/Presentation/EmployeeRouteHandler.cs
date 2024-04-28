@@ -59,7 +59,7 @@ namespace Alex.MinimalApi.Service.Presentation
         static async Task<IResult> GetEmployeeById(int id, IMapper mapper, IEmployeeRepository repo)
         {
             var result = await repo.GetAsync(id);
-            Pres.Employee output = null;
+            Pres.Employee? output = null;
             if (result != null)
             {
                 output = mapper.Map<Pres.Employee>(result);

@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Alex.MinimalApi.Service.Core
+﻿namespace Alex.MinimalApi.Service.Core
 {
     /// <summary>
     /// Repo for Employee details
@@ -16,17 +14,10 @@ namespace Alex.MinimalApi.Service.Core
         Task<Employee> GetAsync(int id, bool expand = false);
 
         /// <summary>
-        /// Find Employees
-        /// </summary>
-        /// <param name="criteria">search criteria</param>
-        /// <returns></returns>
-        Task<List<Employee>> FindAsync(Expression<Func<Employee, bool>> criteria);
-
-        /// <summary>
         /// List Employees
         /// </summary>
         /// <param name="expand">inflate entity with child data</param>
         /// <returns></returns>
-        Task<List<Employee>> ListAsync( bool expand = false);
+        Task<List<Employee>> ListAsync(bool expand = false);
     }
 }

@@ -13,7 +13,9 @@ namespace Alex.MinimalApi.Service.Repository.EntiryFramework.Migrations
 {
     [DbContext(typeof(MinimalApiDbContext))]
     [Migration("20240427040058_add-notifications-to-entity-pattern")]
+#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
     partial class addnotificationstoentitypattern
+#pragma warning restore CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

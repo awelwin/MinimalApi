@@ -12,14 +12,14 @@ namespace Alex.MinimalApi.Service.Repository.EntityFramework
         /// </summary>
         /// [Required]
         [StringLength(255)]
-        public string Firstname { get; set; }
+        public required string Firstname { get; set; }
 
         /// <summary>
         /// Lastname
         /// </summary>
         [Required]
         [StringLength(255)]
-        public string Lastname { get; set; }
+        public required string Lastname { get; set; }
 
         /// <summary>
         /// Age

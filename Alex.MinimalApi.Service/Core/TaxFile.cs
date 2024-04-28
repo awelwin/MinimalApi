@@ -9,7 +9,7 @@
         /// <summary>
         /// Alternate user specified value for ID
         /// </summary>
-        public string Alias { get; set; }
+        public required string Alias { get; set; }
 
         #region navigation
         public int? EmployeeId { get; set; }

@@ -8,12 +8,12 @@
         /// <summary>
         /// Firstname
         /// </summary>
-        public string Firstname { get; set; }
+        public required string Firstname { get; set; }
 
         /// <summary>
         /// Lastname
         /// </summary>
-        public string Lastname { get; set; }
+        public required string Lastname { get; set; }
 
         /// <summary>
         /// Age

@@ -26,7 +26,7 @@ namespace Alex.MinimalApi.Service.Repository.EntityFramework
 
         [Required]
         public int TaxFileId { get; set; }
-        public TaxFile TaxFile { get; set; }
+        public TaxFile? TaxFile { get; set; }
         #endregion
     }
 }

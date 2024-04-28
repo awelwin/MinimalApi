@@ -68,7 +68,7 @@ namespace Alex.MinimalApi.Service.Repository
 
 
             //check existing
-            EFType existing = await _context.Set<EFType>().FindAsync(details.Id);
+            var existing = await _context.Set<EFType>().FindAsync(details.Id.GetValueOrDefault());
             if (existing == null)
                 throw new ArgumentException($"entity with id: {details.Id} not found");
 
@@ -81,7 +81,7 @@ namespace Alex.MinimalApi.Service.Repository
             _context.Entry(existing).State = EntityState.Detached;
 
             //return current state
-            return await GetAsync(existing.Id.Value);
+            return await GetAsync(existing.Id.GetValueOrDefault());
 
         }
 

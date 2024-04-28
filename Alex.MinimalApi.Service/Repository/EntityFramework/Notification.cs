@@ -6,6 +6,6 @@ namespace Alex.MinimalApi.Service.Repository.EntityFramework
     {
         [Required]
         [StringLength(500)]
-        public string Message { get; set; }
+        public required string Message { get; set; }
     }
 }

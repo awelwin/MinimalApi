@@ -8,6 +8,7 @@ namespace Alex.MinimalApi.Service.Presentation
         /// content of the notification
         /// </summary>
         [StringLength(500)]
-        public string Message { get; set; }
+        [Required]
+        public required string Message { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace Alex.MinimalApi.Service.Presentation
         [Required]
         public int TaxFileId { get; set; }
         [JsonIgnore]
-        public TaxFile TaxFile { get; set; }
+        public TaxFile? TaxFile { get; set; }
         #endregion
     }
 }

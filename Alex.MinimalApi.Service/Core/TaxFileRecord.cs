@@ -23,7 +23,7 @@
 
         #region Navigation
         public int TaxFileId { get; set; }
-        public TaxFile TaxFile { get; set; }
+        public TaxFile? TaxFile { get; set; }
         #endregion
     }
 }

@@ -1,19 +1,20 @@
 ﻿@Alex.MinimalApi.Service_HostAddress = http://localhost:5058
-///EMPLOYEE
+
+///EMPLOYEE -----------------------------------------
 POST {{Alex.MinimalApi.Service_HostAddress}}/Employee
 Content-Type: application/json
 
 {
-  "firstname": "peter",
-  "lastname": "bogan",
-  "age": 150,
+  "firstname": "Gerard",
+  "lastname": "Tierdrop",
+  "age": 12,
   "taxFile": {
-      "alias": "PB tax file",
+      "alias": "GT tax file",
       "taxFileRecords": [
       {
-        "financialYear": 2022,
-        "amountPaid": 211,
-        "amountClaimed": 3004
+        "financialYear": 2021,
+        "amountPaid": 5000,
+        "amountClaimed": 132
       }
       ]
   }
@@ -22,10 +23,19 @@ Content-Type: application/json
 ###
 
 GET {{Alex.MinimalApi.Service_HostAddress}}/Employee
-
 ###
 GET {{Alex.MinimalApi.Service_HostAddress}}/Employee/1
-
 ###
 
-///NOTIFICATION
+///NOTIFICATION ---------------------------------------
+POST {{Alex.MinimalApi.Service_HostAddress}}/Notification
+Content-Type: application/json
+
+{
+  "message" : "This is a message"
+}
+
+###
+GET {{Alex.MinimalApi.Service_HostAddress}}/Notification
+###
+GET {{Alex.MinimalApi.Service_HostAddress}}/Notification/1
