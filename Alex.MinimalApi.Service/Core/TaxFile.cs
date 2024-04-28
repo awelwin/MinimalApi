@@ -14,7 +14,7 @@
         #region navigation
         public int? EmployeeId { get; set; }
         public Employee? Employee { get; set; }
-        public ICollection<TaxFileRecord> TaxFileRecords { get; } = new List<TaxFileRecord>();
+        public ICollection<TaxFileRecord> TaxFileRecords { get; set; } = new List<TaxFileRecord>();
         #endregion
 
     }

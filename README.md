@@ -10,6 +10,7 @@ This repo depends on the latest <em><strong>.NET Core 8</strong></em> and the us
 - Automapper > for object mapping
 - EntityFrameworkCore > grabbing data
 - Swagger (OpenAI)  > API Documentation Gen
+- Moq > aid MSTest unit tests
 
 ## Approach
 

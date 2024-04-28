@@ -9,7 +9,7 @@ namespace Alex.MinimalApi.Service.Presentation
     /// <summary>
     /// Route handler for 'Notification'  route
     /// </summary>
-    internal class NotificationRouteHandler : IRouteHandler
+    public sealed class NotificationRouteHandler : IRouteHandler
     {
         public static void CreateRoutes(WebApplication app)
         {
@@ -29,6 +29,7 @@ namespace Alex.MinimalApi.Service.Presentation
         #region Delegates
         public static async Task<IResult> GetNotificationById(int id, IRepository<Core.Notification> repo, IMapper mapper)
         {
+
             var result = await repo.GetAsync(id);
             if (result == null)
                 return Results.NotFound(id);

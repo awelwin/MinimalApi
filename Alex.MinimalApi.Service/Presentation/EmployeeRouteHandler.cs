@@ -49,14 +49,14 @@ namespace Alex.MinimalApi.Service.Presentation
 
         #region Delegates
 
-        static async Task<IResult> ListEmployee(bool? expand, IMapper mapper, IEmployeeRepository repo)
+        public static async Task<IResult> ListEmployee(bool? expand, IMapper mapper, IEmployeeRepository repo)
         {
             List<Core.Employee> result = await repo.ListAsync(expand == null ? false : expand.Value);
             List<Pres.Employee> output = mapper.Map<List<Pres.Employee>>(result);
             return Results.Ok(output);
         }
 
-        static async Task<IResult> GetEmployeeById(int id, IMapper mapper, IEmployeeRepository repo)
+        public static async Task<IResult> GetEmployeeById(int id, IMapper mapper, IRepository<Core.Employee> repo)
         {
             var result = await repo.GetAsync(id);
             Pres.Employee? output = null;
@@ -69,8 +69,12 @@ namespace Alex.MinimalApi.Service.Presentation
 
         }
 
-        static async Task<IResult> CreateEmployee(Pres.Employee employee, IMapper mapper, IEmployeeRepository repo)
+        public static async Task<IResult> CreateEmployee(Pres.Employee employee, IMapper mapper, IRepository<Core.Employee> repo)
         {
+            if (employee == null)
+                return Results.BadRequest();
+
+
             Core.Employee input = mapper.Map<Core.Employee>(employee);
             var result = await repo.CreateAsync(input);
             Pres.Employee output = mapper.Map<Pres.Employee>(result);
