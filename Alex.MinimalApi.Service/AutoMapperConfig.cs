@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using core = Alex.MinimalApi.Service.Core;
 using EF = Alex.MinimalApi.Service.Repository.EntityFramework;
-using pres = Alex.MinimalApi.Service.Presentation;
+using Pres = Alex.MinimalApi.Service.Presentation;
 
 namespace Alex.MinimalApi.Service
 {
@@ -19,18 +18,18 @@ namespace Alex.MinimalApi.Service
             var config = new AutoMapper.MapperConfiguration(
                 conf =>
                 {
-                    conf.CreateMap<pres.Employee, core.Employee>().ReverseMap();
-                    conf.CreateMap<core.Employee, EF.Employee>().ReverseMap();
+                    conf.CreateMap<Pres.Employee, Core.Employee>().ReverseMap();
+                    conf.CreateMap<Core.Employee, EF.Employee>().ReverseMap();
 
-                    conf.CreateMap<pres.TaxFile, core.TaxFile>().ReverseMap();
-                    conf.CreateMap<core.TaxFile, EF.TaxFile>().ReverseMap();
+                    conf.CreateMap<Pres.TaxFile, Core.TaxFile>().ReverseMap();
+                    conf.CreateMap<Core.TaxFile, EF.TaxFile>().ReverseMap();
 
-                    conf.CreateMap<pres.TaxFileRecord, core.TaxFileRecord>().ReverseMap();
-                    conf.CreateMap<core.TaxFileRecord, EF.TaxFileRecord>().ReverseMap();
+                    conf.CreateMap<Pres.TaxFileRecord, Core.TaxFileRecord>().ReverseMap();
+                    conf.CreateMap<Core.TaxFileRecord, EF.TaxFileRecord>().ReverseMap();
 
-                    conf.CreateMap<pres.Notification, core.Notification>().ReverseMap();
+                    conf.CreateMap<Pres.Notification, Core.Notification>().ReverseMap();
 
-                    conf.CreateMap<core.Notification, EF.Notification>().ReverseMap();
+                    conf.CreateMap<Core.Notification, EF.Notification>().ReverseMap();
 
                 });
             var mapper = config.CreateMapper();

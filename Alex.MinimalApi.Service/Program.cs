@@ -5,7 +5,7 @@ using Alex.MinimalApi.Service.Repository;
 using Alex.MinimalApi.Service.Repository.EntityFramework;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using core = Alex.MinimalApi.Service.Core;
+using Core = Alex.MinimalApi.Service.Core;
 using EF = Alex.MinimalApi.Service.Repository.EntityFramework;
 
 
@@ -19,8 +19,8 @@ builder.Services.AddDbContext<MinimalApiDbContext>(db => db.UseSqlServer(builder
 builder.Services.AddSingleton<IMapper>(mapper);
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddTransient(
-    typeof(IRepository<core.Notification>),
-    typeof(GenericRepository<core.Notification, EF.Notification>)
+    typeof(IRepository<Core.Notification>),
+    typeof(GenericRepository<Core.Notification, EF.Notification>)
     );
 
 var app = builder.Build();

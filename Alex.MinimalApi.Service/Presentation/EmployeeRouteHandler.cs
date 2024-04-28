@@ -1,8 +1,7 @@
 ﻿using Alex.MinimalApi.Service.Core;
 using AutoMapper;
 using Microsoft.OpenApi.Models;
-using core = Alex.MinimalApi.Service.Core;
-using pres = Alex.MinimalApi.Service.Presentation;
+using Pres = Alex.MinimalApi.Service.Presentation;
 
 namespace Alex.MinimalApi.Service.Presentation
 {
@@ -15,7 +14,7 @@ namespace Alex.MinimalApi.Service.Presentation
         {
             app.MapGet("/Employee",
                 (bool? expand, IMapper mapper, IEmployeeRepository repo) => ListEmployee(expand, mapper, repo))
-                 .Produces<List<pres.Employee>>(StatusCodes.Status200OK)
+                 .Produces<List<Pres.Employee>>(StatusCodes.Status200OK)
                 .WithOpenApi(operation => new(operation)
                 {
                     OperationId = "list-employee",
@@ -25,7 +24,7 @@ namespace Alex.MinimalApi.Service.Presentation
 
             app.MapGet("/Employee/{id}",
                 (int id, IMapper mapper, IEmployeeRepository repo) => GetEmployeeById(id, mapper, repo))
-                .Produces<pres.Employee>(StatusCodes.Status200OK)
+                .Produces<Pres.Employee>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
                 .WithOpenApi(operation => new(operation)
                 {
@@ -35,8 +34,8 @@ namespace Alex.MinimalApi.Service.Presentation
                 });
 
             app.MapPost("/Employee",
-                (pres.Employee emp, IMapper mapper, IEmployeeRepository repo) => CreateEmployee(emp, mapper, repo))
-                .Produces<pres.Employee>(StatusCodes.Status201Created)
+                (Pres.Employee emp, IMapper mapper, IEmployeeRepository repo) => CreateEmployee(emp, mapper, repo))
+                .Produces<Pres.Employee>(StatusCodes.Status201Created)
                 .WithOpenApi(operation => new(operation)
                 {
                     OperationId = "create-employee",
@@ -52,29 +51,29 @@ namespace Alex.MinimalApi.Service.Presentation
 
         static async Task<IResult> ListEmployee(bool? expand, IMapper mapper, IEmployeeRepository repo)
         {
-            List<core.Employee> result = await repo.ListAsync(expand == null ? false : expand.Value);
-            List<pres.Employee> output = mapper.Map<List<pres.Employee>>(result);
+            List<Core.Employee> result = await repo.ListAsync(expand == null ? false : expand.Value);
+            List<Pres.Employee> output = mapper.Map<List<Pres.Employee>>(result);
             return Results.Ok(output);
         }
 
         static async Task<IResult> GetEmployeeById(int id, IMapper mapper, IEmployeeRepository repo)
         {
             var result = await repo.GetAsync(id);
-            pres.Employee output = null;
+            Pres.Employee output = null;
             if (result != null)
             {
-                output = mapper.Map<pres.Employee>(result);
+                output = mapper.Map<Pres.Employee>(result);
                 return Results.Ok(output);
             }
             return Results.NotFound(id);
 
         }
 
-        static async Task<IResult> CreateEmployee(pres.Employee employee, IMapper mapper, IEmployeeRepository repo)
+        static async Task<IResult> CreateEmployee(Pres.Employee employee, IMapper mapper, IEmployeeRepository repo)
         {
-            core.Employee input = mapper.Map<core.Employee>(employee);
+            Core.Employee input = mapper.Map<Core.Employee>(employee);
             var result = await repo.CreateAsync(input);
-            pres.Employee output = mapper.Map<pres.Employee>(result);
+            Pres.Employee output = mapper.Map<Pres.Employee>(result);
             return Results.Created($"/Employee/{result.Id}", output);
         }
 

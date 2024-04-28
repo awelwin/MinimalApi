@@ -1,8 +1,7 @@
 ﻿using Alex.MinimalApi.Service.Core;
 using AutoMapper;
 using Microsoft.OpenApi.Models;
-using core = Alex.MinimalApi.Service.Core;
-using pres = Alex.MinimalApi.Service.Presentation;
+using Pres = Alex.MinimalApi.Service.Presentation;
 
 namespace Alex.MinimalApi.Service.Presentation
 {
@@ -15,8 +14,8 @@ namespace Alex.MinimalApi.Service.Presentation
         public static void CreateRoutes(WebApplication app)
         {
             app.MapGet("/Notification/{id}",
-                (int id, IRepository<core.Notification> repo, IMapper mapper) => GetNotificationById(id, repo, mapper))
-                .Produces<pres.Notification>(StatusCodes.Status200OK)
+                (int id, IRepository<Core.Notification> repo, IMapper mapper) => GetNotificationById(id, repo, mapper))
+                .Produces<Pres.Notification>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
                 .WithOpenApi(operation => new(operation)
                 {
@@ -28,13 +27,13 @@ namespace Alex.MinimalApi.Service.Presentation
         }
 
         #region Delegates
-        public static async Task<IResult> GetNotificationById(int id, IRepository<core.Notification> repo, IMapper mapper)
+        public static async Task<IResult> GetNotificationById(int id, IRepository<Core.Notification> repo, IMapper mapper)
         {
             var result = await repo.GetAsync(id);
             if (result == null)
                 return Results.NotFound(id);
 
-            pres.Notification output = mapper.Map<pres.Notification>(result);
+            Pres.Notification output = mapper.Map<Pres.Notification>(result);
             return Results.Ok(output);
         }
         #endregion
