@@ -22,6 +22,8 @@ builder.Services.AddTransient(
     typeof(IRepository<Core.Notification>),
     typeof(GenericRepository<Core.Notification, EF.Notification>)
     );
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 #endregion services
@@ -30,11 +32,15 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 app.UsePathBase("/api/v1");
 app.UseRouting();
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
 }
+
 #endregion
 
 #region Endpoint-Routes
