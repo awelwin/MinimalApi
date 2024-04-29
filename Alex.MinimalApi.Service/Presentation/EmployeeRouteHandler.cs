@@ -1,5 +1,7 @@
 ﻿using Alex.MinimalApi.Service.Core;
+using Alex.MinimalApi.Service.Presentation.Validators;
 using AutoMapper;
+using FluentValidation;
 using Microsoft.OpenApi.Models;
 using Pres = Alex.MinimalApi.Service.Presentation;
 
@@ -14,7 +16,10 @@ namespace Alex.MinimalApi.Service.Presentation
         {
             //Route
             app.MapGet("/Employee",
-                (bool? expand, IMapper mapper, IEmployeeRepository repo) => ListEmployee(expand, mapper, repo))
+                (bool? expand,
+                IMapper mapper,
+                IEmployeeRepository repo,
+                IValidator<Pres.Employee> validator) => ListEmployee(expand, mapper, repo))
 
                 //Documentation
                 .Produces<List<Pres.Employee>>(StatusCodes.Status200OK)
@@ -48,6 +53,9 @@ namespace Alex.MinimalApi.Service.Presentation
             //Route
             app.MapPost("/Employee",
                 (Pres.Employee emp, IMapper mapper, IEmployeeRepository repo) => CreateEmployee(emp, mapper, repo))
+
+                //validation
+                .AddEndpointFilter<ValidationEndpointFilter<Pres.Employee>>()
 
                 //Documentation
                 .Produces<Pres.Employee>(StatusCodes.Status201Created)
@@ -87,7 +95,6 @@ namespace Alex.MinimalApi.Service.Presentation
         {
             if (employee == null)
                 return Results.BadRequest();
-
 
             Core.Employee input = mapper.Map<Core.Employee>(employee);
             var result = await repo.CreateAsync(input);
