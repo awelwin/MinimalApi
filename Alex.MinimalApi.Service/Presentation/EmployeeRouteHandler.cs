@@ -12,39 +12,53 @@ namespace Alex.MinimalApi.Service.Presentation
     {
         public static void CreateRoutes(WebApplication app)
         {
+            //Route
             app.MapGet("/Employee",
                 (bool? expand, IMapper mapper, IEmployeeRepository repo) => ListEmployee(expand, mapper, repo))
-                 .Produces<List<Pres.Employee>>(StatusCodes.Status200OK)
-                .WithOpenApi(operation => new(operation)
+
+                //Documentation
+                .Produces<List<Pres.Employee>>(StatusCodes.Status200OK)
+                .WithOpenApi(op =>
                 {
-                    OperationId = "list-employee",
-                    Summary = "List Employees",
-                    Tags = new List<OpenApiTag>() { new() { Name = "Employee" } }
+                    op.OperationId = "list-employee";
+                    op.Summary = "List Employees";
+                    op.Parameters[0].Description = "Expand or inflate Employee objects to contain its child dependencies";
+                    op.Responses["200"].Description = "Array of Employees currently in system.";
+                    op.Tags = new List<OpenApiTag>() { new() { Name = "Employee" } };
+                    return op;
                 });
 
+            //Route
             app.MapGet("/Employee/{id}",
                 (int id, IMapper mapper, IEmployeeRepository repo) => GetEmployeeById(id, mapper, repo))
+
+                //Documentation
                 .Produces<Pres.Employee>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
-                .WithOpenApi(operation => new(operation)
+                .WithOpenApi(op =>
                 {
-                    OperationId = "get-employee-by-id",
-                    Summary = "Get Employee by id",
-                    Tags = new List<OpenApiTag>() { new() { Name = "Employee" } }
+                    op.OperationId = "get-employee-by-id";
+                    op.Summary = "Get Employee by id";
+                    op.Parameters[0].Description = "Unique Employee Id";
+                    op.Responses["200"].Description = "Employee matching id parameter";
+                    op.Tags = new List<OpenApiTag>() { new() { Name = "Employee" } };
+                    return op;
                 });
 
+            //Route
             app.MapPost("/Employee",
                 (Pres.Employee emp, IMapper mapper, IEmployeeRepository repo) => CreateEmployee(emp, mapper, repo))
+
+                //Documentation
                 .Produces<Pres.Employee>(StatusCodes.Status201Created)
-                .WithOpenApi(operation => new(operation)
+                .WithOpenApi(op =>
                 {
-                    OperationId = "create-employee",
-                    Summary = "Create Employee",
-                    Tags = new List<OpenApiTag>() { new() { Name = "Employee" } }
+                    op.OperationId = "create-employee";
+                    op.Summary = "Create Employee";
+                    op.Responses["201"].Description = "Newly created Employee entity with unique Id";
+                    op.Tags = new List<OpenApiTag>() { new() { Name = "Employee" } };
+                    return op;
                 });
-
-
-
         }
 
         #region Delegates

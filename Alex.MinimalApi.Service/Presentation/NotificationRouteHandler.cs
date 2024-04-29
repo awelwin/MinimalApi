@@ -13,15 +13,21 @@ namespace Alex.MinimalApi.Service.Presentation
     {
         public static void CreateRoutes(WebApplication app)
         {
+            //Route
             app.MapGet("/Notification/{id}",
                 (int id, IRepository<Core.Notification> repo, IMapper mapper) => GetNotificationById(id, repo, mapper))
+
+                //Documentation
                 .Produces<Pres.Notification>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound)
-                .WithOpenApi(operation => new(operation)
+                .WithOpenApi(op =>
                 {
-                    OperationId = "get-notification-by-id",
-                    Summary = "Get Notifications by id",
-                    Tags = new List<OpenApiTag>() { new() { Name = "Notification" } }
+                    op.OperationId = "get-notification-by-id";
+                    op.Summary = "Get Notifications by id";
+                    op.Parameters[0].Description = "Unique notification Id";
+                    op.Responses["200"].Description = "Notoficatin matching Id parameter";
+                    op.Tags = new List<OpenApiTag>() { new() { Name = "Notification" } };
+                    return op;
                 });
 
         }
