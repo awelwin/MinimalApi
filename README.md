@@ -3,49 +3,47 @@
 Proof Of Concept - "At Scale"
 
 A place I'm testing if ASP.NET Core minimal APIs are capable of replacing my existing larger controller driven WebAPI's and how a project structure would look
+Pls update to use latest <em><strong>.NET Core 8</strong></em> or greater
 
-## To Develop
-you need
-<em><strong>.NET Core 8</strong></em> or greater
-SQLServer - via docker container
+## Local Dev ( Connected Services )
 
-1) Install Docker https://www.docker.com/products/docker-desktop/
+- SQLServer
+- Azurite emulator - Azure Blog Storage
 
-2) get the image
-
+> https://www.docker.com/products/docker-desktop/
 > docker pull mcr.microsoft.com/azure-sql-edge
-
-3) create container
-
 >docker run -e "ACCEPT_EULA=1" -e "MSSQL_SA_PASSWORD=MinApiPass1" -e "MSSQL_PID=Developer" -e "MSSQL_USER=SA" -p 1433:1433 -d --name=sql mcr.microsoft.com/azure-sql-edge
 
 NOTE: user and pass from appsettings.json 
 
-## Run It  :)
+### --- Azurite emulator ---
 
-BUILD
-from '/Alex.MinimalApi.Service' folder
->.net build
+> docker pull mcr.microsoft.com/azure-storage/azurite
+> docker run -p 10000:10000 -p 10001:10001 -p 10002:10002 mcr.microsoft.com/azure-storage/azurite
 
-SCAFFOLD
-initial database creation
+## :) RUN ME :)
+
+ /Alex.MinimalApi.Service folder
+
+>dotnet build
 >dotnet ef database update
+>dotnet run
 
-LAUNCH
->.net run
+ / root folder
+
+>dotnet test
 
 VIEW API DOCS
-http://localhost:5058/swagger/ to see API Documentation
+
+> http://localhost:5058/swagger/ to see API Documentation
 
 MAKE REQUESTS
 see 'requests.http' file sample requests you can execute
 e.g.   http://localhost:5058/Employee
 
-UNIT TESTS
-from root folder '/'
->dotnet test
 
-## Dependencies ?
+
+## Packages Dependencies ?
 
 - Automapper > for object mapping
 - EntityFrameworkCore > grabbing data
@@ -83,7 +81,7 @@ Due to current limitations with minimalAPi I use manual model validation using F
 
 Any new entity can be added to the system without implementing a specific repository implementation via use of GenericRepository<<T>> wich provides all the usual CRUD Operations out of the box. Just add a route and corresponding DTO object.
 
-## Child Entities / Nested complex objects
+#### CHILDREN / NESTED COMPLEX OBJECTS
 
 If Generic repository is not enough I added specific Repository implementations for some entities to allow an expansion of an entity.
 
