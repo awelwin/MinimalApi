@@ -29,7 +29,7 @@ from '/Alex.MinimalApi.Service' folder
 
 SCAFFOLD
 initial database creation
->.net ef database update
+>dotnet ef database update
 
 LAUNCH
 >.net run
