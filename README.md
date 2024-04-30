@@ -4,15 +4,56 @@ Proof Of Concept - "At Scale"
 
 A place I'm testing if ASP.NET Core minimal APIs are capable of replacing my existing larger controller driven WebAPI's and how a project structure would look
 
-## Dependencies
-This repo depends on the latest <em><strong>.NET Core 8</strong></em> and the usual blend of libraries...
+## To Develop
+you need
+<em><strong>.NET Core 8</strong></em> or greater
+SQLServer - via docker container
+
+1) Install Docker https://www.docker.com/products/docker-desktop/
+
+2) get the image
+
+> docker pull mcr.microsoft.com/azure-sql-edge
+
+3) create container
+
+>docker run -e "ACCEPT_EULA=1" -e "MSSQL_SA_PASSWORD=MinApiPass1" -e "MSSQL_PID=Developer" -e "MSSQL_USER=SA" -p 1433:1433 -d --name=sql mcr.microsoft.com/azure-sql-edge
+
+NOTE: user and pass from appsettings.json 
+
+## Run It  :)
+
+BUILD
+from '/Alex.MinimalApi.Service' folder
+>.net build
+
+SCAFFOLD
+initial database creation
+>.net ef database update
+
+LAUNCH
+>.net run
+
+VIEW API DOCS
+http://localhost:5058/swagger/ to see API Documentation
+
+MAKE REQUESTS
+see 'requests.http' file sample requests you can execute
+e.g.   http://localhost:5058/Employee
+
+UNIT TESTS
+from root folder '/'
+>dotnet test
+
+## Dependencies ?
 
 - Automapper > for object mapping
 - EntityFrameworkCore > grabbing data
 - Swagger (OpenAI)  > API Documentation Gen
 - Moq > aid MSTest unit tests
 
-## Approach
+
+## Design
 
 A bunch of __'Rest Endpoints'__ to expose an __'SQLServer model'__ via a mostly __'CRUD'__ transactional method. 
 
@@ -33,10 +74,10 @@ Data access via repository pattern
   i.e. if API is to be consumed in event driven architecture and workflow & business rules are managed outside of API.
 
 ## Model Validation
-
-> see System.ComponentModel.DataAnnotations Namespace
+Due to current limitations with minimalAPi I use manual model validation using FluentValidation as recommended by Microsoft. NOTE: This is likely to change in future 
+> see https://www.nuget.org/packages/FluentValidation/
  
-A declarative approach to model validation
+ I would like to see a declarative implemtation added like System.ComponentModel.DataAnnotations that we all used in MVC style apps.
 
 ## Generic Repositories
 
