@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Alex.MinimalApi.Service.Repository.EntityFramework
+namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
 {
     /// <summary>
     /// Repository members

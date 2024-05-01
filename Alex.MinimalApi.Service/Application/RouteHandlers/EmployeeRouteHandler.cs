@@ -1,11 +1,11 @@
-﻿using Alex.MinimalApi.Service.Core;
-using Alex.MinimalApi.Service.Presentation.Validators;
+﻿using Alex.MinimalApi.Service.Application.EndpointFilters;
+using Alex.MinimalApi.Service.Core;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.OpenApi.Models;
 using Pres = Alex.MinimalApi.Service.Presentation;
 
-namespace Alex.MinimalApi.Service.Presentation
+namespace Alex.MinimalApi.Service.Application.RouteHandlers
 {
     /// <summary>
     /// Route handler for '/Employee'  route

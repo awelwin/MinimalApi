@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Alex.MinimalApi.Service.Presentation.Validators
+namespace Alex.MinimalApi.Service.Application.EndpointFilters
 {
 
     public class ValidationEndpointFilter<T> : IEndpointFilter

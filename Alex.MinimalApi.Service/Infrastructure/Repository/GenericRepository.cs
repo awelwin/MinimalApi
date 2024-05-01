@@ -1,11 +1,11 @@
 ﻿using Alex.MinimalApi.Service.Core;
-using Alex.MinimalApi.Service.Repository.EntityFramework;
+using Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Alex.MinimalApi.Service.Repository
+namespace Alex.MinimalApi.Service.Infrastructure.Repository
 {
     public class GenericRepository<CoreType, EFType> : IRepository<CoreType>
         where CoreType : class, ICoreEntity
@@ -16,8 +16,8 @@ namespace Alex.MinimalApi.Service.Repository
 
         public GenericRepository(MinimalApiDbContext context, IMapper mapper)
         {
-            this._context = context;
-            this._mapper = mapper;
+            _context = context;
+            _mapper = mapper;
         }
 
         public async Task<CoreType> CreateAsync(CoreType input)

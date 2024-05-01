@@ -1,9 +1,9 @@
-﻿using FluentValidation;
-using Pres = Alex.MinimalApi.Service.Presentation;
+﻿using Alex.MinimalApi.Service.Presentation;
+using FluentValidation;
 
-namespace Alex.MinimalApi.Service.Presentation.Validators
+namespace Alex.MinimalApi.Service.Application.Validators
 {
-    public class EmployeeValidator : AbstractValidator<Pres.Employee>
+    public class EmployeeValidator : AbstractValidator<Employee>
     {
         public EmployeeValidator()
         {

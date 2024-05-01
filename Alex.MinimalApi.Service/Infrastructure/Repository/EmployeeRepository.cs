@@ -1,17 +1,16 @@
 ﻿using Alex.MinimalApi.Service.Core;
-using Alex.MinimalApi.Service.Repository.EntityFramework;
+using Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using EF = Alex.MinimalApi.Service.Repository.EntityFramework;
 
-namespace Alex.MinimalApi.Service.Repository
+namespace Alex.MinimalApi.Service.Infrastructure.Repository
 {
     /// <summary>
     /// Employee Repository
     /// </summary>
-    public class EmployeeRepository : GenericRepository<Core.Employee, EF.Employee>, IEmployeeRepository
+    public class EmployeeRepository : GenericRepository<Core.Employee, EntityFramework.Employee>, IEmployeeRepository
     {
         public EmployeeRepository(MinimalApiDbContext context, IMapper mapper) : base(context, mapper) { }
 
@@ -39,11 +38,11 @@ namespace Alex.MinimalApi.Service.Repository
         public async Task<List<Core.Employee>> ListAsync(bool expand)
         {
             //dynamically create where condition
-            Expression<Func<EF.Employee, bool>> criteria;
+            Expression<Func<EntityFramework.Employee, bool>> criteria;
             //if (readyToCollect)
             //criteria = (a => (a.Submitted && a.Collection == null));
 
-            criteria = (a => true);
+            criteria = a => true;
             if (expand)
             {
                 var myList = await _context.Employees
@@ -57,7 +56,7 @@ namespace Alex.MinimalApi.Service.Repository
             }
             else
             {
-                return await base.FindAsync(x => true);
+                return await FindAsync(x => true);
             }
         }
 

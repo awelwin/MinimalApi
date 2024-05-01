@@ -1,4 +1,5 @@
 using Alex.MinimalApi.Service;
+using Alex.MinimalApi.Service.Application.RouteHandlers;
 using Alex.MinimalApi.Service.Core;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -32,7 +33,7 @@ namespace Alex.MinimalApi.Test
                 .Returns(Task.FromResult<Core.Notification>(null!));
 
             //ACT
-            IResult actual = await Pres.NotificationRouteHandler.GetNotificationById(
+            IResult actual = await NotificationRouteHandler.GetNotificationById(
                 in_id,
                 in_repo.Object,
                 this.In_Mapper!);
@@ -53,7 +54,7 @@ namespace Alex.MinimalApi.Test
                 .Returns(Task.FromResult<Core.Notification>(new Notification() { Message = "test" }));
 
             //ACT
-            IResult actual = await Pres.NotificationRouteHandler.GetNotificationById(
+            IResult actual = await NotificationRouteHandler.GetNotificationById(
                 in_id,
                 in_repo.Object,
                 this.In_Mapper!);

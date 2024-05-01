@@ -1,5 +1,6 @@
 ﻿
 
+using Alex.MinimalApi.Service.Application.RouteHandlers;
 using AutoMapper;
 using global::Alex.MinimalApi.Service;
 using global::Alex.MinimalApi.Service.Core;
@@ -34,7 +35,7 @@ namespace Alex.MinimalApi.Test
                 .Returns(Task.FromResult<Core.Employee>(null!));
 
             //ACT
-            IResult actual = await Pres.EmployeeRouteHandler.GetEmployeeById(
+            IResult actual = await EmployeeRouteHandler.GetEmployeeById(
                 in_id,
                 this.In_Mapper!,
                 in_repo.Object);
@@ -62,7 +63,7 @@ namespace Alex.MinimalApi.Test
                     }));
 
             //ACT
-            IResult actual = await Pres.EmployeeRouteHandler.GetEmployeeById(
+            IResult actual = await EmployeeRouteHandler.GetEmployeeById(
                 in_id,
                  this.In_Mapper!,
                  in_repo.Object);
@@ -101,7 +102,7 @@ namespace Alex.MinimalApi.Test
                         }));
 
             //ACT
-            IResult actual = await Pres.EmployeeRouteHandler.CreateEmployee(
+            IResult actual = await EmployeeRouteHandler.CreateEmployee(
                 in_pres_emp,
                  this.In_Mapper!,
                  in_repo.Object);
@@ -125,7 +126,7 @@ namespace Alex.MinimalApi.Test
             var in_repo = new Mock<IRepository<Core.Employee>>();
 
             //ACT
-            IResult actual = await Pres.EmployeeRouteHandler.CreateEmployee(
+            IResult actual = await EmployeeRouteHandler.CreateEmployee(
                null!,
                 this.In_Mapper!,
                 in_repo.Object);
@@ -155,7 +156,7 @@ namespace Alex.MinimalApi.Test
                         }
                         ));
             //ACT
-            IResult actual = await Pres.EmployeeRouteHandler.ListEmployee(
+            IResult actual = await EmployeeRouteHandler.ListEmployee(
                false,
                this.In_Mapper!,
                in_repo.Object);
@@ -202,7 +203,7 @@ namespace Alex.MinimalApi.Test
                     .Returns(Task.FromResult<List<Core.Employee>>(
                         new List<Core.Employee>() { emp })); // 1 expanded employee
             //ACT
-            IResult actual = await Pres.EmployeeRouteHandler.ListEmployee(
+            IResult actual = await EmployeeRouteHandler.ListEmployee(
                false,
                this.In_Mapper!,
                in_repo.Object);

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Alex.MinimalApi.Service.Presentation
+namespace Alex.MinimalApi.Service.Application.RouteHandlers
 {
     /// <summary>
     /// Middleware for intercepting and handling uncaught exceptions 

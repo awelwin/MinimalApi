@@ -1,14 +1,13 @@
 using Alex.MinimalApi.Service;
+using Alex.MinimalApi.Service.Application.RouteHandlers;
+using Alex.MinimalApi.Service.Application.Validators;
 using Alex.MinimalApi.Service.Core;
-using Alex.MinimalApi.Service.Presentation;
-using Alex.MinimalApi.Service.Presentation.Validators;
-using Alex.MinimalApi.Service.Repository;
-using Alex.MinimalApi.Service.Repository.EntityFramework;
+using Alex.MinimalApi.Service.Infrastructure.Repository;
+using Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Core = Alex.MinimalApi.Service.Core;
-using EF = Alex.MinimalApi.Service.Repository.EntityFramework;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +27,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 //Repositories
-builder.Services.AddTransient(typeof(IRepository<Core.Notification>), typeof(GenericRepository<Core.Notification, EF.Notification>));
+builder.Services.AddTransient(typeof(IRepository<Core.Notification>), typeof(GenericRepository<Core.Notification, Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework.Notification>));
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddDbContext<MinimalApiDbContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("MinimalApiDb")), ServiceLifetime.Scoped);
 
