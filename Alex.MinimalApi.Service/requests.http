@@ -39,3 +39,9 @@ Content-Type: application/json
 GET {{Alex.MinimalApi.Service_HostAddress}}/Notification
 ###
 GET {{Alex.MinimalApi.Service_HostAddress}}/Notification/1
+
+###
+
+///PUBLIC DOCUMENT -----------------------------------
+POST {{Alex.MinimalApi.Service_HostAddress}}/PublicDocument
+// *** PLEASE USE SWAGGER UI TO SAMPLE POST CONTENT ***

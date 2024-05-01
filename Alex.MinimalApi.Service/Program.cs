@@ -2,6 +2,7 @@ using Alex.MinimalApi.Service;
 using Alex.MinimalApi.Service.Application.RouteHandlers;
 using Alex.MinimalApi.Service.Application.Validators;
 using Alex.MinimalApi.Service.Core;
+using Alex.MinimalApi.Service.Infrastructure;
 using Alex.MinimalApi.Service.Infrastructure.Repository;
 using Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework;
 using AutoMapper;
@@ -34,6 +35,13 @@ builder.Services.AddDbContext<MinimalApiDbContext>(db => db.UseSqlServer(builder
 //validation
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(EmployeeValidator)); //register them all at once
 
+//Document
+builder.Services.AddTransient<IPublicDocumentService, AzureBlobPublicDocumentService>
+    (x => new AzureBlobPublicDocumentService(
+        builder.Configuration.GetSection("AzureBlobPublicDocumentService").GetValue<string>("account-name")!,
+         builder.Configuration.GetSection("AzureBlobPublicDocumentService").GetValue<string>("account-key")!,
+        builder.Configuration.GetSection("AzureBlobPublicDocumentService").GetValue<string>("container")!,
+        builder.Configuration.GetSection("AzureBlobPublicDocumentService").GetValue<string>("host")!)); //key
 
 var app = builder.Build();
 #endregion services
@@ -50,13 +58,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.UseDeveloperExceptionPage();
 }
-
 #endregion
 
 #region Endpoint-Routes
 
 NotificationRouteHandler.CreateRoutes(app);
 EmployeeRouteHandler.CreateRoutes(app);
+PublicDocumentRouteHandler.CreateRoutes(app);
 
 #endregion
 
