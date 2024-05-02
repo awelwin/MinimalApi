@@ -1,7 +1,7 @@
 ﻿using Alex.MinimalApi.Service.Core;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Alex.MinimalApi.Service.Application.RouteHandlers
+namespace Alex.MinimalApi.Service.Application.EndpointHandlers
 {
     /// <summary>
     /// Route handler for '/Employee'  route

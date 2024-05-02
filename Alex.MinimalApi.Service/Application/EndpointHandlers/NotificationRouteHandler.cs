@@ -3,7 +3,7 @@ using AutoMapper;
 using Microsoft.OpenApi.Models;
 using Pres = Alex.MinimalApi.Service.Presentation;
 
-namespace Alex.MinimalApi.Service.Application.RouteHandlers
+namespace Alex.MinimalApi.Service.Application.EndpointHandlers
 {
 
     /// <summary>

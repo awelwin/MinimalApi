@@ -1,5 +1,5 @@
 using Alex.MinimalApi.Service;
-using Alex.MinimalApi.Service.Application.RouteHandlers;
+using Alex.MinimalApi.Service.Application.EndpointHandlers;
 using Alex.MinimalApi.Service.Application.Validators;
 using Alex.MinimalApi.Service.Core;
 using Alex.MinimalApi.Service.Infrastructure;
@@ -29,6 +29,7 @@ builder.Services.AddProblemDetails();
 
 //Repositories
 builder.Services.AddTransient(typeof(IRepository<Core.Notification>), typeof(GenericRepository<Core.Notification, Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework.Notification>));
+builder.Services.AddTransient(typeof(IRepository<Core.Employee>), typeof(GenericRepository<Core.Employee, Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework.Employee>));
 builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddDbContext<MinimalApiDbContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("MinimalApiDb")), ServiceLifetime.Scoped);
 

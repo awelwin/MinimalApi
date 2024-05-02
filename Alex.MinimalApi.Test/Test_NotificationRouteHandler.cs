@@ -1,5 +1,5 @@
 using Alex.MinimalApi.Service;
-using Alex.MinimalApi.Service.Application.RouteHandlers;
+using Alex.MinimalApi.Service.Application.EndpointHandlers;
 using Alex.MinimalApi.Service.Core;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;

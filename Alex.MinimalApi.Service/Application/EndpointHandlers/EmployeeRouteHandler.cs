@@ -1,11 +1,10 @@
 ﻿using Alex.MinimalApi.Service.Application.EndpointFilters;
 using Alex.MinimalApi.Service.Core;
 using AutoMapper;
-using FluentValidation;
 using Microsoft.OpenApi.Models;
 using Pres = Alex.MinimalApi.Service.Presentation;
 
-namespace Alex.MinimalApi.Service.Application.RouteHandlers
+namespace Alex.MinimalApi.Service.Application.EndpointHandlers
 {
     /// <summary>
     /// Route handler for '/Employee'  route
@@ -18,8 +17,7 @@ namespace Alex.MinimalApi.Service.Application.RouteHandlers
             app.MapGet("/Employee",
                 (bool? expand,
                 IMapper mapper,
-                IEmployeeRepository repo,
-                IValidator<Pres.Employee> validator) => ListEmployee(expand, mapper, repo))
+                IEmployeeRepository repo) => ListEmployee(expand, mapper, repo))
 
                 //Documentation
                 .Produces<List<Pres.Employee>>(StatusCodes.Status200OK)
@@ -52,7 +50,7 @@ namespace Alex.MinimalApi.Service.Application.RouteHandlers
 
             //Route
             app.MapPost("/Employee",
-                (Pres.Employee emp, IMapper mapper, IEmployeeRepository repo) => CreateEmployee(emp, mapper, repo))
+                (Pres.Employee emp, IMapper mapper, IRepository<Core.Employee> repo) => CreateEmployee(emp, mapper, repo))
 
                 //validation
                 .AddEndpointFilter<ValidationEndpointFilter<Pres.Employee>>()
@@ -64,6 +62,24 @@ namespace Alex.MinimalApi.Service.Application.RouteHandlers
                     op.OperationId = "create-employee";
                     op.Summary = "Create Employee";
                     op.Responses["201"].Description = "Newly created Employee entity with unique Id";
+                    op.Tags = new List<OpenApiTag>() { new() { Name = "Employee" } };
+                    return op;
+                });
+
+            //Route
+            app.MapPut("/Employee/{id}",
+                (int? id, Pres.Employee emp, IMapper mapper, IRepository<Core.Employee> repo) => UpdateEmployee(id, emp, mapper, repo))
+
+                //validation - model
+                .AddEndpointFilter<ValidationEndpointFilter<Pres.Employee>>()
+
+                //Documentation
+                .Produces<Pres.Employee>(StatusCodes.Status200OK)
+                .WithOpenApi(op =>
+                {
+                    op.OperationId = "update-employee";
+                    op.Summary = "Update Employee";
+                    op.Responses["200"].Description = "Updated Employee entity";
                     op.Tags = new List<OpenApiTag>() { new() { Name = "Employee" } };
                     return op;
                 });
@@ -102,6 +118,23 @@ namespace Alex.MinimalApi.Service.Application.RouteHandlers
             return Results.Created($"/Employee/{result.Id}", output);
         }
 
+        public static async Task<IResult> UpdateEmployee(int? id, Pres.Employee employee, IMapper mapper, IRepository<Core.Employee> repo)
+        {
+
+            //validate
+            if (id == null || employee == null)
+                return Results.BadRequest();
+
+            //persist
+
+            Core.Employee input = mapper.Map<Core.Employee>(employee);
+            input.Id = id;
+            var result = await repo.UpdateAsync(input);
+            Pres.Employee output = mapper.Map<Pres.Employee>(result);
+
+            //confirm
+            return Results.Ok(output);
+        }
         #endregion
 
     }

@@ -22,6 +22,36 @@ Content-Type: application/json
 
 ###
 
+PUT {{Alex.MinimalApi.Service_HostAddress}}/Employee/2
+Content-Type: application/json
+
+{
+  "Id": 2,
+  "firstname": "Gerardx",
+  "lastname": "Tierdrop",
+  "age": 12,
+  "taxFile": {
+      "Id": 5,
+      "alias": "GT tax filexx",
+      "taxFileRecords": [
+      {
+        "Id": 1,
+        "financialYear": 2000,
+        "amountPaid": 3,
+        "amountClaimed": 4
+      },
+      {
+        "Id": 2,
+        "financialYear": 1,
+        "amountPaid": 1,
+        "amountClaimed": 1
+      }
+      ]
+  }
+}
+
+###
+
 GET {{Alex.MinimalApi.Service_HostAddress}}/Employee
 ###
 GET {{Alex.MinimalApi.Service_HostAddress}}/Employee/1

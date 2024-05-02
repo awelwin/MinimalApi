@@ -1,4 +1,4 @@
-﻿namespace Alex.MinimalApi.Service.Application.RouteHandlers
+﻿namespace Alex.MinimalApi.Service.Application.EndpointHandlers
 {
     /// <summary>
     /// Route Handler operations

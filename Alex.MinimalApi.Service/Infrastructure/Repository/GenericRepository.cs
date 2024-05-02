@@ -59,30 +59,19 @@ namespace Alex.MinimalApi.Service.Infrastructure.Repository
             if (details == null)
                 throw new ArgumentNullException();
 
-            //update entity
-            //EFType updated = _mapper.Map<EFType>(details);
-            //_context.Set<EFType>().Update(updated);
-            //await _context.SaveChangesAsync();
-            //_context.Entry(updated).State = EntityState.Detached;
-            //return _mapper.Map<CoreType>(updated);
-
-
-            //check existing
+            //check exists
             var existing = await _context.Set<EFType>().FindAsync(details.Id.GetValueOrDefault());
             if (existing == null)
                 throw new ArgumentException($"entity with id: {details.Id} not found");
+            else
+                _context.Entry(existing).State = EntityState.Detached;
 
-            //update
+            //update entity
             EFType updated = _mapper.Map<EFType>(details);
-            _context.Entry(existing).CurrentValues.SetValues(updated);
+            _context.Set<EFType>().Update(updated);
             await _context.SaveChangesAsync();
-
-            //stop tracking
-            _context.Entry(existing).State = EntityState.Detached;
-
-            //return current state
-            return await GetAsync(existing.Id.GetValueOrDefault());
-
+            _context.Entry(updated).State = EntityState.Detached;
+            return _mapper.Map<CoreType>(updated);
         }
 
         public async Task DeleteAsync(int id)
