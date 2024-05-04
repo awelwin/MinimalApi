@@ -81,14 +81,6 @@ Due to current limitations with minimalAPi I use manual model validation using F
 
 Any new entity can be added to the system without implementing a specific repository implementation via use of GenericRepository<<T>> wich provides all the usual CRUD Operations out of the box. Just add a route and corresponding DTO object.
 
-#### CHILDREN / NESTED COMPLEX OBJECTS
-
-If Generic repository is not enough I added specific Repository implementations for some entities to allow an expansion of an entity.
-
-simply append the query string
-> ?expand=true
-
-Repositories that implement complex objects introduce scale / performance issues and although I have included the expand feature these operations should be individually isolated out into other dedicated nanoservices eg 'Azure Functions' for granular pricing and scale reasons.
 
 
 

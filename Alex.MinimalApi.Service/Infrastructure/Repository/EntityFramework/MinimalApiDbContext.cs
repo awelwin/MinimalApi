@@ -12,6 +12,25 @@ namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Employee>(x =>
+            {
+                x.HasKey(y => y.Id);
+                x.OwnsOne(y => y.TaxFile, tf =>
+                {
+                    tf.WithOwner().HasForeignKey("EmployeeId");
+                    tf.Property<int>("Id");
+                    tf.HasKey("Id");
+                    tf.ToTable("TaxFile");
+                    tf.OwnsMany(x => x.TaxFileRecords, tfr =>
+                    {
+                        tfr.WithOwner().HasForeignKey("TaxFileId");
+                        tfr.Property<int>("Id");
+                        tfr.ToTable("TaxFileRecord");
+                        tfr.HasKey("Id");
+                    });
+                });
+            });
+
         }
 
 

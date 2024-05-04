@@ -145,8 +145,8 @@ namespace Alex.MinimalApi.Test
             //ARRANGE
             int EXPECTED_COUNT = 3;
 
-            var in_repo = new Mock<IEmployeeRepository>(); //mock IRepository.CreateAsunc() dependency
-            in_repo.Setup(x => x.ListAsync(false))
+            var in_repo = new Mock<IRepository<Employee>>(); //mock IRepository.CreateAsunc() dependency
+            in_repo.Setup(x => x.FindAsync(x => true))
                     .Returns(Task.FromResult<List<Core.Employee>>(
                         new List<Core.Employee>()
                         {
@@ -157,7 +157,6 @@ namespace Alex.MinimalApi.Test
                         ));
             //ACT
             IResult actual = await EmployeeRouteHandler.ListEmployee(
-               false,
                this.In_Mapper!,
                in_repo.Object);
 
@@ -173,7 +172,7 @@ namespace Alex.MinimalApi.Test
         }
 
         [TestMethod]
-        public async Task ListEmployee_EmployeesExist_ReturnsExpandedEmployees()
+        public async Task ListEmployee_EmployeesExist_ReturnsEmployees()
         {
 
             //ARRANGE
@@ -198,13 +197,12 @@ namespace Alex.MinimalApi.Test
                 }
             };
 
-            var in_repo = new Mock<IEmployeeRepository>(); //mock IRepository.ListAsyc() dependency
-            in_repo.Setup(x => x.ListAsync(false))
+            var in_repo = new Mock<IRepository<Employee>>(); //mock IRepository.ListAsyc() dependency
+            in_repo.Setup(x => x.FindAsync(x => true))
                     .Returns(Task.FromResult<List<Core.Employee>>(
-                        new List<Core.Employee>() { emp })); // 1 expanded employee
+                        new List<Core.Employee>() { emp })); // 1 employee
             //ACT
             IResult actual = await EmployeeRouteHandler.ListEmployee(
-               false,
                this.In_Mapper!,
                in_repo.Object);
 

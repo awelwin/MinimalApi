@@ -30,7 +30,6 @@ builder.Services.AddProblemDetails();
 //Repositories
 builder.Services.AddTransient(typeof(IRepository<Core.Notification>), typeof(GenericRepository<Core.Notification, Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework.Notification>));
 builder.Services.AddTransient(typeof(IRepository<Core.Employee>), typeof(GenericRepository<Core.Employee, Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework.Employee>));
-builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddDbContext<MinimalApiDbContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("MinimalApiDb")), ServiceLifetime.Scoped);
 
 //validation

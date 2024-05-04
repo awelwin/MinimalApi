@@ -57,20 +57,36 @@ namespace Alex.MinimalApi.Service.Infrastructure.Repository
         {
             //validate params
             if (details == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException("details");
+            if (details.Id == null)
+                throw new ArgumentNullException("details", "must have an id");
+            if (details.Id < 1)
+                throw new ArgumentOutOfRangeException("details", "Id not specified");
 
             //check exists
-            var existing = await _context.Set<EFType>().FindAsync(details.Id.GetValueOrDefault());
+            //EFType existing = await _context.Set<EFType>().Where(e => e.Id == details.Id).SingleOrDefaultAsync();
+            EFType existing = await _context.Set<EFType>().FindAsync(details.Id);
             if (existing == null)
-                throw new ArgumentException($"entity with id: {details.Id} not found");
-            else
-                _context.Entry(existing).State = EntityState.Detached;
+                throw new ArgumentException($"entity not found");
 
-            //update entity
+
             EFType updated = _mapper.Map<EFType>(details);
+
+
+            // [DELETES]
+            // NOTE: IMPLIED DELETE (Missing Child entity) not currently supported by Entity Framework
+            // This is a workaround using DeleteGraph() custom extension method
+            _context.DeleteGraph<EFType>(updated, existing);
+            await _context.SaveChangesAsync();
+
+            // [INSERTS - UPDATES]
+            // automatic tracking using Entity Framework Aggregate 'Owns' 'HasMany' feature)
+            _context.Entry(existing).State = EntityState.Detached;
             _context.Set<EFType>().Update(updated);
             await _context.SaveChangesAsync();
             _context.Entry(updated).State = EntityState.Detached;
+
+
             return _mapper.Map<CoreType>(updated);
         }
 

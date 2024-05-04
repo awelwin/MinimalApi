@@ -13,9 +13,8 @@ public class TaxFile : RepositoryEntity
 
 
     #region Navigation
-    public int? EmployeeId { get; set; }
-    public Employee? Employee { get; set; }
-    public ICollection<TaxFileRecord> TaxFileRecords { get; } = new List<TaxFileRecord>();
+    public int EmployeeId { get; set; }
+    public ICollection<TaxFileRecord> TaxFileRecords { get; set; }
     #endregion
 }
 

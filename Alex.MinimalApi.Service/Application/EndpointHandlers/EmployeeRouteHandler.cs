@@ -15,9 +15,8 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
         {
             //Route
             app.MapGet("/Employee",
-                (bool? expand,
-                IMapper mapper,
-                IEmployeeRepository repo) => ListEmployee(expand, mapper, repo))
+                (IMapper mapper,
+                IRepository<Core.Employee> repo) => ListEmployee(mapper, repo))
 
                 //Documentation
                 .Produces<List<Pres.Employee>>(StatusCodes.Status200OK)
@@ -25,7 +24,6 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
                 {
                     op.OperationId = "list-employee";
                     op.Summary = "List Employees";
-                    op.Parameters[0].Description = "Expand or inflate Employee objects to contain its child dependencies";
                     op.Responses["200"].Description = "Array of Employees currently in system.";
                     op.Tags = new List<OpenApiTag>() { new() { Name = "Employee" } };
                     return op;
@@ -33,7 +31,7 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
 
             //Route
             app.MapGet("/Employee/{id}",
-                (int id, IMapper mapper, IEmployeeRepository repo) => GetEmployeeById(id, mapper, repo))
+                (int id, IMapper mapper, IRepository<Core.Employee> repo) => GetEmployeeById(id, mapper, repo))
 
                 //Documentation
                 .Produces<Pres.Employee>(StatusCodes.Status200OK)
@@ -87,9 +85,9 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
 
         #region Delegates
 
-        public static async Task<IResult> ListEmployee(bool? expand, IMapper mapper, IEmployeeRepository repo)
+        public static async Task<IResult> ListEmployee(IMapper mapper, IRepository<Core.Employee> repo)
         {
-            List<Core.Employee> result = await repo.ListAsync(expand == null ? false : expand.Value);
+            List<Core.Employee> result = await repo.FindAsync(x => true);
             List<Pres.Employee> output = mapper.Map<List<Pres.Employee>>(result);
             return Results.Ok(output);
         }

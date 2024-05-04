@@ -15,6 +15,11 @@ Content-Type: application/json
         "financialYear": 2021,
         "amountPaid": 5000,
         "amountClaimed": 132
+      },
+      {
+        "financialYear": 1999,
+        "amountPaid": 233,
+        "amountClaimed": 111
       }
       ]
   }
@@ -22,30 +27,33 @@ Content-Type: application/json
 
 ###
 
-PUT {{Alex.MinimalApi.Service_HostAddress}}/Employee/2
+PUT {{Alex.MinimalApi.Service_HostAddress}}/Employee/1004
 Content-Type: application/json
 
 {
-  "Id": 2,
+  "Id": 1004,
   "firstname": "Gerardx",
   "lastname": "Tierdrop",
   "age": 12,
   "taxFile": {
-      "Id": 5,
+      "Id": 1007,
       "alias": "GT tax filexx",
+      "EmployeeId": 1004,
       "taxFileRecords": [
       {
-        "Id": 1,
-        "financialYear": 2000,
-        "amountPaid": 3,
-        "amountClaimed": 4
+        "Id": 1009,
+        "financialYear": 1111,
+        "amountPaid": 50,
+        "amountClaimed": 50,
+        "TaxFileId": 1007
       },
       {
-        "Id": 2,
-        "financialYear": 1,
-        "amountPaid": 1,
-        "amountClaimed": 1
+        "financialYear": 2222,
+        "amountPaid": 12,
+        "amountClaimed": 12,
+        "TaxFileId": 1007
       }
+      
       ]
   }
 }
@@ -54,7 +62,7 @@ Content-Type: application/json
 
 GET {{Alex.MinimalApi.Service_HostAddress}}/Employee
 ###
-GET {{Alex.MinimalApi.Service_HostAddress}}/Employee/1
+GET {{Alex.MinimalApi.Service_HostAddress}}/Employee/1003?expand=true
 ###
 
 ///NOTIFICATION ---------------------------------------

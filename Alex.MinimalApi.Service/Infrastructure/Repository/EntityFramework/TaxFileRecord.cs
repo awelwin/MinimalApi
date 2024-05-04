@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
+﻿namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
 {
     /// <summary>
     /// Tax File Record
@@ -24,9 +22,7 @@ namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
 
         #region Navigation
 
-        [Required]
         public int TaxFileId { get; set; }
-        public TaxFile? TaxFile { get; set; }
         #endregion
     }
 }

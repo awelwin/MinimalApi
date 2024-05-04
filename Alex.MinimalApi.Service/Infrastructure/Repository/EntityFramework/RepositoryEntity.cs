@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
+﻿namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
 {
     /// <summary>
     /// Repository members
@@ -11,7 +8,7 @@ namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
         /// <summary>
         /// unique Id
         /// </summary>
-        int? Id { get; set; }
+        int Id { get; set; }
 
         /// <summary>
         /// created
@@ -34,9 +31,7 @@ namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
         /// <summary>
         /// Unique Id
         /// </summary>
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int? Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// entity create date
