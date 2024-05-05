@@ -15,22 +15,6 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
         {
 
             //Route
-            app.MapGet("/Employee",
-                (IMapper mapper,
-                IRepository<Core.Employee> repo) => ListEmployee(mapper, repo))
-
-                //Documentation
-                .Produces<List<Pres.Employee>>(StatusCodes.Status200OK)
-                .WithOpenApi(op =>
-                {
-                    op.OperationId = "list-employee";
-                    op.Summary = "List Employees";
-                    op.Responses["200"].Description = "Array of Employees currently in system.";
-                    op.Tags = new List<OpenApiTag>() { new() { Name = "Employee" } };
-                    return op;
-                });
-
-            //Route
             app.MapGet("/Employee/{id}",
                 (int id, IMapper mapper, IRepository<Core.Employee> repo) => GetEmployeeById(id, mapper, repo))
 
@@ -66,14 +50,7 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
                 });
         }
 
-        #region Delegates
-
-        public static async Task<IResult> ListEmployee(IMapper mapper, IRepository<Core.Employee> repo)
-        {
-            List<Core.Employee> result = await repo.FindAsync(x => true);
-            List<Pres.Employee> output = mapper.Map<List<Pres.Employee>>(result);
-            return Results.Ok(output);
-        }
+        #region Delegates    
 
         public static async Task<IResult> GetEmployeeById(int id, IMapper mapper, IRepository<Core.Employee> repo)
         {

@@ -16,5 +16,10 @@
         {
             return await repo.CreateAsync(entity);
         }
+
+        public async Task<List<T>> GetAsync()
+        {
+            return await repo.FindAsync(x => true);
+        }
     }
 }

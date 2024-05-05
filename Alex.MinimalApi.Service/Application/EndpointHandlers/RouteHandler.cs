@@ -18,8 +18,9 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
         public static void CreateRoutes(WebApplication app, string routeBase)
         {
             //Route
-            RouteService<P, C> routeservice = app.Services.CreateScope().ServiceProvider.GetService<RouteService<P, C>>()!;
-            app.MapPost($"/{routeBase}", (P entity) => routeservice.PostAsync(entity))
+            RouteService<P, C> routeService = app.Services.CreateScope().ServiceProvider.GetService<RouteService<P, C>>()!;
+
+            app.MapPost($"/{routeBase}", (P entity) => routeService.PostAsync(entity))
 
                 //validation
                 .AddEndpointFilter<ValidationEndpointFilter<P>>()
@@ -32,6 +33,20 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
                     op.Summary = $"Create {routeBase}";
                     op.Responses["201"].Description = $"Newly created {routeBase} entity with unique Id";
                     op.Tags = new List<OpenApiTag>() { new() { Name = routeBase } };
+                    return op;
+                });
+
+            //Route
+            app.MapGet($"/{routeBase}", () => routeService.GetAsync())
+
+                //Documentation
+                .Produces<List<P>>(StatusCodes.Status200OK)
+                .WithOpenApi(op =>
+                {
+                    op.OperationId = $"Get-{routeBase}";
+                    op.Summary = "Get Employees";
+                    op.Responses["200"].Description = "Array of ${routeBase} currently in system.";
+                    op.Tags = new List<OpenApiTag>() { new() { Name = $"{routeBase}" } };
                     return op;
                 });
         }

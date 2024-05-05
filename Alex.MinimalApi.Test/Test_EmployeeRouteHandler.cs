@@ -4,7 +4,6 @@ using Alex.MinimalApi.Service.Application.EndpointHandlers;
 using Alex.MinimalApi.Service.Configuration;
 using Alex.MinimalApi.Service.Core.Services;
 using AutoMapper;
-using global::Alex.MinimalApi.Service;
 using global::Alex.MinimalApi.Service.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -78,87 +77,6 @@ namespace Alex.MinimalApi.Test
             Assert.IsInstanceOfType(okResult.Value, typeof(Pres.Employee)); //returns correct content type
         }
 
-        [TestMethod]
-        public async Task ListEmployee_MultipleExists_ReturnsList()
-        {
-
-            //ARRANGE
-            int EXPECTED_COUNT = 3;
-
-            var in_repo = new Mock<IRepository<Employee>>(); //mock IRepository.CreateAsunc() dependency
-            in_repo.Setup(x => x.FindAsync(x => true))
-                    .Returns(Task.FromResult<List<Core.Employee>>(
-                        new List<Core.Employee>()
-                        {
-                            new Core.Employee() { Firstname = "test", Lastname = "test", Age = 23 },
-                            new Core.Employee() { Firstname = "test", Lastname = "test", Age = 23 },
-                            new Core.Employee() { Firstname = "test", Lastname = "test", Age = 23 }
-                        }
-                        ));
-            //ACT
-            IResult actual = await EmployeeRouteHandler.ListEmployee(
-               this.In_Mapper!,
-               in_repo.Object);
-
-            //ASSERT
-            Assert.IsNotNull(actual);
-            var okResult = (Ok<List<Pres.Employee>>)actual;
-            Assert.IsNotNull(okResult); // returned without error
-            Assert.IsInstanceOfType(okResult, typeof(Ok<List<Pres.Employee>>)); //OK 200 returned
-            Assert.IsNotNull(okResult.Value); //content returned
-            Assert.IsInstanceOfType(okResult.Value, typeof(List<Pres.Employee>)); //list returned
-            Assert.AreEqual(okResult.Value.Count, EXPECTED_COUNT); //3 employees returned
-
-        }
-
-        [TestMethod]
-        public async Task ListEmployee_EmployeesExist_ReturnsEmployees()
-        {
-
-            //ARRANGE
-            int EXPECTED_EMPLOYEE_COUNT = 1;
-            int EXPECTED_TAXFILERECORDS_COUNT = 2;
-
-            Core.Employee emp = new Core.Employee()
-            {
-                Id = 1,
-                Firstname = "first",
-                Lastname = "last",
-                Age = 34,
-                TaxFile = new Core.TaxFile()
-                {
-                    EmployeeId = 1,
-                    Alias = "taxfile",
-                    TaxFileRecords = new List<Core.TaxFileRecord>()
-                    {
-                        new TaxFileRecord() { Id = 1, TaxFileId = 1, AmountPaid = 300, AmountClaimed= 200, FinancialYear = 2022 },
-                        new TaxFileRecord() { Id = 2, TaxFileId = 1, AmountPaid = 33, AmountClaimed= 50 , FinancialYear = 2020}
-                    },
-                }
-            };
-
-            var in_repo = new Mock<IRepository<Employee>>(); //mock IRepository.ListAsyc() dependency
-            in_repo.Setup(x => x.FindAsync(x => true))
-                    .Returns(Task.FromResult<List<Core.Employee>>(
-                        new List<Core.Employee>() { emp })); // 1 employee
-            //ACT
-            IResult actual = await EmployeeRouteHandler.ListEmployee(
-               this.In_Mapper!,
-               in_repo.Object);
-
-            //ASSERT
-            Assert.IsNotNull(actual);
-            var okResult = (Ok<List<Pres.Employee>>)actual;
-            Assert.IsNotNull(okResult); // returned without error
-            Assert.IsInstanceOfType(okResult, typeof(Ok<List<Pres.Employee>>)); //OK 200 returned
-            Assert.IsNotNull(okResult.Value); //content returned
-            Assert.IsInstanceOfType(okResult.Value, typeof(List<Pres.Employee>)); //list returned
-            Assert.AreEqual(okResult.Value.Count, EXPECTED_EMPLOYEE_COUNT); //1 employees returned
-            Assert.IsNotNull(okResult.Value.First().TaxFile); // employee has taxfile
-            Assert.IsNotNull(okResult.Value.First().TaxFile!.TaxFileRecords!); //employee has taxfile records
-            Assert.AreEqual(okResult.Value.First().TaxFile!.TaxFileRecords!.Count, EXPECTED_TAXFILERECORDS_COUNT);
-        }
-
         [TestMethod()]
         public async Task UpdateEmployee_Success_ReturnsEmployee()
         {
@@ -191,8 +109,6 @@ namespace Alex.MinimalApi.Test
             Assert.IsInstanceOfType(okResult.Value, typeof(Pres.Employee)); //returns correct content type
             Assert.AreEqual(EXPECTED_ID, ((Pres.Employee)okResult.Value).Id);
         }
-
-
 
         [TestMethod()]
         public async Task UpdateEmployee_badRequest_ReturnsBadRequest()

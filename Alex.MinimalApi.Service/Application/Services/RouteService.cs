@@ -39,5 +39,16 @@ namespace Alex.MinimalApi.Service.Application.Services
             string uri = $"/{entity.GetType().Name}/{result.Id}";
             return Results.Created(uri, output);
         }
+
+        /// <summary>
+        /// Handle Get entities Route
+        /// </summary>
+        /// <returns>All entities</returns>
+        public async Task<IResult> GetAsync()
+        {
+            List<C> result = await entityService.GetAsync();
+            List<P> output = mapper.Map<List<P>>(result);
+            return Results.Ok(output);
+        }
     }
 }
