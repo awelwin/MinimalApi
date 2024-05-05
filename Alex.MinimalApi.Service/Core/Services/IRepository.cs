@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Alex.MinimalApi.Service.Core
+namespace Alex.MinimalApi.Service.Core.Services
 {
     /// <summary>
     /// Generic repository pattern

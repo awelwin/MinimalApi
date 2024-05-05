@@ -62,7 +62,7 @@ Content-Type: application/json
 
 GET {{Alex.MinimalApi.Service_HostAddress}}/Employee
 ###
-GET {{Alex.MinimalApi.Service_HostAddress}}/Employee/1003?expand=true
+GET {{Alex.MinimalApi.Service_HostAddress}}/Employee/2010
 ###
 
 ///NOTIFICATION ---------------------------------------

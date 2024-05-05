@@ -2,7 +2,7 @@
 using AutoMapper;
 using Pres = Alex.MinimalApi.Service.Presentation;
 
-namespace Alex.MinimalApi.Service
+namespace Alex.MinimalApi.Service.Configuration
 {
     /// <summary>
     /// AutoMapper for object to object mapping
@@ -15,7 +15,7 @@ namespace Alex.MinimalApi.Service
         /// <returns>IMapper</returns>
         public static IMapper ConfigureMaps()
         {
-            var config = new AutoMapper.MapperConfiguration(
+            var config = new MapperConfiguration(
                 conf =>
                 {
                     conf.CreateMap<Pres.Employee, Core.Employee>().ReverseMap();

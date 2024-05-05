@@ -1,4 +1,5 @@
 ﻿using Alex.MinimalApi.Service.Core;
+using Alex.MinimalApi.Service.Core.Services;
 using Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -65,7 +66,7 @@ namespace Alex.MinimalApi.Service.Infrastructure.Repository
 
             //check exists
             //EFType existing = await _context.Set<EFType>().Where(e => e.Id == details.Id).SingleOrDefaultAsync();
-            EFType existing = await _context.Set<EFType>().FindAsync(details.Id);
+            EFType? existing = await _context.Set<EFType>().FindAsync(details.Id);
             if (existing == null)
                 throw new ArgumentException($"entity not found");
 

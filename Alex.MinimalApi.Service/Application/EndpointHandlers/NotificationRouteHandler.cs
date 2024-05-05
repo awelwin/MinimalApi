@@ -1,4 +1,4 @@
-﻿using Alex.MinimalApi.Service.Core;
+﻿using Alex.MinimalApi.Service.Core.Services;
 using AutoMapper;
 using Microsoft.OpenApi.Models;
 using Pres = Alex.MinimalApi.Service.Presentation;

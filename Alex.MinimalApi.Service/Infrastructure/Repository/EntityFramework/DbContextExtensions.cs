@@ -21,10 +21,12 @@ namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
         /// <returns></returns>
         public static object[] GetPrimaryKeyValues(this EntityEntry entry)
         {
-            return entry.Metadata.FindPrimaryKey()
+#pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
+            return entry.Metadata.FindPrimaryKey()!
                 .Properties
                 .Select(p => entry.Property(p.Name).CurrentValue)
                 .ToArray();
+#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
         }
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
                     //get corresponding nav from updated
                     string classname = existNavItem.Metadata.Name;
                     var x = existingEntry.Entity.GetType().GetProperty(classname);
-                    var updatedNavItem = x.GetValue(updatedEntity);
+                    var updatedNavItem = x!.GetValue(updatedEntity);
                     var updatedNavItemAsEnumerable = updatedNavItem as IEnumerable<object>;
 
                     // Is Collection ???
@@ -105,7 +107,9 @@ namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
                     else
                     {
                         // the navigation is not a list
+#pragma warning disable CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
                         DeleteGraph(context, updatedNavItem, existNavItem.CurrentValue, existingEntry.Metadata.ClrType.FullName!);
+#pragma warning restore CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
                     }
                 }//--loop
 

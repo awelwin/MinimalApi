@@ -1,5 +1,5 @@
 ﻿using Alex.MinimalApi.Service.Application.EndpointFilters;
-using Alex.MinimalApi.Service.Core;
+using Alex.MinimalApi.Service.Core.Services;
 using AutoMapper;
 using Microsoft.OpenApi.Models;
 using Pres = Alex.MinimalApi.Service.Presentation;
@@ -9,10 +9,11 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
     /// <summary>
     /// Route handler for '/Employee'  route
     /// </summary>
-    public class EmployeeRouteHandler : IRouteHandler
+    public class EmployeeRouteHandler //: IRouteHandler
     {
         public static void CreateRoutes(WebApplication app)
         {
+
             //Route
             app.MapGet("/Employee",
                 (IMapper mapper,
@@ -42,24 +43,6 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
                     op.Summary = "Get Employee by id";
                     op.Parameters[0].Description = "Unique Employee Id";
                     op.Responses["200"].Description = "Employee matching id parameter";
-                    op.Tags = new List<OpenApiTag>() { new() { Name = "Employee" } };
-                    return op;
-                });
-
-            //Route
-            app.MapPost("/Employee",
-                (Pres.Employee emp, IMapper mapper, IRepository<Core.Employee> repo) => CreateEmployee(emp, mapper, repo))
-
-                //validation
-                .AddEndpointFilter<ValidationEndpointFilter<Pres.Employee>>()
-
-                //Documentation
-                .Produces<Pres.Employee>(StatusCodes.Status201Created)
-                .WithOpenApi(op =>
-                {
-                    op.OperationId = "create-employee";
-                    op.Summary = "Create Employee";
-                    op.Responses["201"].Description = "Newly created Employee entity with unique Id";
                     op.Tags = new List<OpenApiTag>() { new() { Name = "Employee" } };
                     return op;
                 });
@@ -105,16 +88,6 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
 
         }
 
-        public static async Task<IResult> CreateEmployee(Pres.Employee employee, IMapper mapper, IRepository<Core.Employee> repo)
-        {
-            if (employee == null)
-                return Results.BadRequest();
-
-            Core.Employee input = mapper.Map<Core.Employee>(employee);
-            var result = await repo.CreateAsync(input);
-            Pres.Employee output = mapper.Map<Pres.Employee>(result);
-            return Results.Created($"/Employee/{result.Id}", output);
-        }
 
         public static async Task<IResult> UpdateEmployee(int? id, Pres.Employee employee, IMapper mapper, IRepository<Core.Employee> repo)
         {
