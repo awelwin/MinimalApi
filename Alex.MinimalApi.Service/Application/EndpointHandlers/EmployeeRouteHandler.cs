@@ -13,24 +13,6 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
     {
         public static void CreateRoutes(WebApplication app)
         {
-
-            //Route
-            app.MapGet("/Employee/{id}",
-                (int id, IMapper mapper, IRepository<Core.Employee> repo) => GetEmployeeById(id, mapper, repo))
-
-                //Documentation
-                .Produces<Pres.Employee>(StatusCodes.Status200OK)
-                .Produces(StatusCodes.Status404NotFound)
-                .WithOpenApi(op =>
-                {
-                    op.OperationId = "get-employee-by-id";
-                    op.Summary = "Get Employee by id";
-                    op.Parameters[0].Description = "Unique Employee Id";
-                    op.Responses["200"].Description = "Employee matching id parameter";
-                    op.Tags = new List<OpenApiTag>() { new() { Name = "Employee" } };
-                    return op;
-                });
-
             //Route
             app.MapPut("/Employee/{id}",
                 (int? id, Pres.Employee emp, IMapper mapper, IRepository<Core.Employee> repo) => UpdateEmployee(id, emp, mapper, repo))

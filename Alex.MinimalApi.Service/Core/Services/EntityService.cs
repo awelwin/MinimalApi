@@ -21,5 +21,10 @@
         {
             return await repo.FindAsync(x => true);
         }
+
+        public async Task<T> GetAsync(int id)
+        {
+            return await repo.GetAsync(id);
+        }
     }
 }

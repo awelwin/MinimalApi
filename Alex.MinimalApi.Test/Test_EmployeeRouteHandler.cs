@@ -4,7 +4,6 @@ using Alex.MinimalApi.Service.Application.EndpointHandlers;
 using Alex.MinimalApi.Service.Configuration;
 using Alex.MinimalApi.Service.Core.Services;
 using AutoMapper;
-using global::Alex.MinimalApi.Service.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
@@ -24,57 +23,6 @@ namespace Alex.MinimalApi.Test
         public Test_EmployeeRouteHandler()
         {
             this.In_Mapper = AutoMapperConfig.ConfigureMaps();
-        }
-
-        [TestMethod()]
-        public async Task GetEmployeeById_NotFound_Returns404()
-        {
-            //ARANGE
-            int in_id = 1;
-            var in_repo = new Mock<IRepository<Core.Employee>>();
-            in_repo.Setup(x => x.GetAsync(in_id))
-                .Returns(Task.FromResult<Core.Employee>(null!));
-
-            //ACT
-            IResult actual = await EmployeeRouteHandler.GetEmployeeById(
-                in_id,
-                this.In_Mapper!,
-                in_repo.Object);
-
-            //ASSERT
-            Assert.IsNotNull(actual);
-            Assert.IsInstanceOfType(actual, typeof(NotFound<int>));
-        }
-
-        [TestMethod()]
-        public async Task GetEmployeeById_Found_ReturnsEmployee()
-        {
-
-            //ARANGE
-            int in_id = 1;
-            var in_repo = new Mock<IRepository<Core.Employee>>();
-            in_repo.Setup(x => x.GetAsync(in_id))
-                .Returns(Task.FromResult<Core.Employee>(
-                    new Employee()
-                    {
-                        Id = in_id,
-                        Firstname = "test",
-                        Lastname = "test",
-                        Age = 12
-                    }));
-
-            //ACT
-            IResult actual = await EmployeeRouteHandler.GetEmployeeById(
-                in_id,
-                 this.In_Mapper!,
-                 in_repo.Object);
-
-            //ASSERT
-            Assert.IsNotNull(actual); // returns result
-            var okResult = (Ok<Pres.Employee>)actual;
-            Assert.IsNotNull(okResult); //return 200 OK result
-            Assert.IsNotNull(okResult.Value); //returns content
-            Assert.IsInstanceOfType(okResult.Value, typeof(Pres.Employee)); //returns correct content type
         }
 
         [TestMethod()]

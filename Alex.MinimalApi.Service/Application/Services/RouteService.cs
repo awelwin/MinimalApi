@@ -50,5 +50,24 @@ namespace Alex.MinimalApi.Service.Application.Services
             List<P> output = mapper.Map<List<P>>(result);
             return Results.Ok(output);
         }
+
+        /// <summary>
+        /// Handle Get by id entities Route
+        /// </summary>
+        /// <returns>Entity represented by unique id</returns>
+        public async Task<IResult> GetAsync(int id)
+        {
+            C result = await entityService.GetAsync(id);
+            P output = mapper.Map<P>(result);
+            if (output == null)
+            {
+                return Results.NotFound(id);
+            }
+            else
+            {
+
+                return Results.Ok(output);
+            }
+        }
     }
 }

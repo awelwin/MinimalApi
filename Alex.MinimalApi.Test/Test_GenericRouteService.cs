@@ -49,10 +49,10 @@ namespace Alex.MinimalApi.Test
                         }));
             EntityService<Core.Employee> in_employeeService = new EntityService<Core.Employee>(in_repo.Object);
 
-            RouteService<Pres.Employee, Core.Employee> employeeRouteService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_employeeService);
+            RouteService<Pres.Employee, Core.Employee> routeService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_employeeService);
 
             //ACT
-            IResult actual = await employeeRouteService.PostAsync(in_pres_emp);
+            IResult actual = await routeService.PostAsync(in_pres_emp);
 
             //ASSERT
             Assert.IsNotNull(actual); // returns result
@@ -72,10 +72,10 @@ namespace Alex.MinimalApi.Test
             //ARRANGE
             var in_repo = new Mock<IRepository<Core.Employee>>();
             var in_empService = new EntityService<Core.Employee>(in_repo.Object);
-            RouteService<Pres.Employee, Core.Employee> employeeRouteService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_empService);
+            RouteService<Pres.Employee, Core.Employee> routeService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_empService);
 
             //ACT
-            IResult actual = await employeeRouteService.PostAsync(null!);
+            IResult actual = await routeService.PostAsync(null!);
 
             //ASSERT
             Assert.IsNotNull(actual);
@@ -85,14 +85,14 @@ namespace Alex.MinimalApi.Test
         }
 
         [TestMethod]
-        public async Task ListAsync_MultipleExists_ReturnsList()
+        public async Task GetAsync_MultipleExists_ReturnsList()
         {
 
             //ARRANGE
             int EXPECTED_COUNT = 3;
             var in_repo = new Mock<IRepository<Core.Employee>>(); //mock IRepository.CreateAsunc() dependency
             var in_empService = new EntityService<Core.Employee>(in_repo.Object);
-            RouteService<Pres.Employee, Core.Employee> employeeRouteService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_empService);
+            RouteService<Pres.Employee, Core.Employee> routeService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_empService);
 
             in_repo.Setup(x => x.FindAsync(x => true))
                     .Returns(Task.FromResult<List<Core.Employee>>(
@@ -105,7 +105,7 @@ namespace Alex.MinimalApi.Test
                         ));
             //ACT
 
-            IResult actual = await employeeRouteService.GetAsync();
+            IResult actual = await routeService.GetAsync();
 
             //ASSERT
             Assert.IsNotNull(actual);
@@ -119,7 +119,7 @@ namespace Alex.MinimalApi.Test
         }
 
         [TestMethod]
-        public async Task ListAsync_EmployeesExist_ReturnsEmployees()
+        public async Task GetAsync_EmployeesExist_ReturnsEmployees()
         {
 
             //ARRANGE
@@ -146,14 +146,14 @@ namespace Alex.MinimalApi.Test
 
             var in_repo = new Mock<IRepository<Core.Employee>>(); //mock IRepository.CreateAsunc() dependency
             var in_empService = new EntityService<Core.Employee>(in_repo.Object);
-            RouteService<Pres.Employee, Core.Employee> employeeRouteService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_empService);
+            RouteService<Pres.Employee, Core.Employee> routeService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_empService);
 
             in_repo.Setup(x => x.FindAsync(x => true))
                     .Returns(Task.FromResult<List<Core.Employee>>(
                         new List<Core.Employee>() { emp })); // 1 employee
 
             //ACT
-            IResult actual = await employeeRouteService.GetAsync();
+            IResult actual = await routeService.GetAsync();
 
             //ASSERT
             Assert.IsNotNull(actual);
@@ -166,6 +166,54 @@ namespace Alex.MinimalApi.Test
             Assert.IsNotNull(okResult.Value.First().TaxFile); // employee has taxfile
             Assert.IsNotNull(okResult.Value.First().TaxFile!.TaxFileRecords!); //employee has taxfile records
             Assert.AreEqual(okResult.Value.First().TaxFile!.TaxFileRecords!.Count, EXPECTED_TAXFILERECORDS_COUNT);
+        }
+
+        [TestMethod()]
+        public async Task GetAsync_NotFound_Returns404()
+        {
+            //ARANGE
+            int in_id = 1;
+            var in_repo = new Mock<IRepository<Core.Employee>>(); //mock IRepository.CreateAsunc() dependency
+            var in_empService = new EntityService<Core.Employee>(in_repo.Object);
+            RouteService<Pres.Employee, Core.Employee> routeService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_empService);
+            in_repo.Setup(x => x.GetAsync(in_id))
+                .Returns(Task.FromResult<Core.Employee>(null!));
+
+            //ACT
+            IResult actual = await routeService.GetAsync(in_id);
+
+            //ASSERT
+            Assert.IsNotNull(actual);
+            Assert.IsInstanceOfType(actual, typeof(NotFound<int>));
+        }
+
+        [TestMethod()]
+        public async Task GetAsync_Found_ReturnsEmployee()
+        {
+            //ARANGE
+            int in_id = 1;
+            var in_repo = new Mock<IRepository<Core.Employee>>(); //mock IRepository.CreateAsunc() dependency
+            var in_empService = new EntityService<Core.Employee>(in_repo.Object);
+            RouteService<Pres.Employee, Core.Employee> routeService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_empService);
+            in_repo.Setup(x => x.GetAsync(in_id))
+                .Returns(Task.FromResult<Core.Employee>(
+                    new Core.Employee()
+                    {
+                        Id = in_id,
+                        Firstname = "test",
+                        Lastname = "test",
+                        Age = 12
+                    }));
+
+            //ACT
+            IResult actual = await routeService.GetAsync(in_id);
+
+            //ASSERT
+            Assert.IsNotNull(actual); // returns result
+            var okResult = (Ok<Pres.Employee>)actual;
+            Assert.IsNotNull(okResult); //return 200 OK result
+            Assert.IsNotNull(okResult.Value); //returns content
+            Assert.IsInstanceOfType(okResult.Value, typeof(Pres.Employee)); //returns correct content type
         }
     }
 }

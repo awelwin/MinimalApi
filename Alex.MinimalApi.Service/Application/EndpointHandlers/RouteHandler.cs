@@ -17,6 +17,8 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
     {
         public static void CreateRoutes(WebApplication app, string routeBase)
         {
+            #region Post
+
             //Route
             RouteService<P, C> routeService = app.Services.CreateScope().ServiceProvider.GetService<RouteService<P, C>>()!;
 
@@ -36,6 +38,9 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
                     return op;
                 });
 
+            #endregion
+
+            #region Get
             //Route
             app.MapGet($"/{routeBase}", () => routeService.GetAsync())
 
@@ -44,11 +49,31 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
                 .WithOpenApi(op =>
                 {
                     op.OperationId = $"Get-{routeBase}";
-                    op.Summary = "Get Employees";
+                    op.Summary = $"Get {routeBase}";
                     op.Responses["200"].Description = "Array of ${routeBase} currently in system.";
                     op.Tags = new List<OpenApiTag>() { new() { Name = $"{routeBase}" } };
                     return op;
                 });
+
+            #endregion
+
+            #region Get/Id
+
+            //Route
+            app.MapGet("/{routeBase}/{id}", (int id) => routeService.GetAsync(id))
+
+                //Documentation
+                .Produces<List<P>>(StatusCodes.Status200OK)
+                .WithOpenApi(op =>
+                {
+                    op.OperationId = $"Get-{routeBase}-byId";
+                    op.Summary = "Get Employee by Id";
+                    op.Responses["200"].Description = "${routeBase}.";
+                    op.Tags = new List<OpenApiTag>() { new() { Name = $"{routeBase}" } };
+                    return op;
+                });
+
+            #endregion
         }
     }
 }
