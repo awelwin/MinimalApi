@@ -3,12 +3,12 @@
     /// <summary>
     /// Employee aggregate services
     /// </summary>
-    public sealed class GenericEntityService<T>
+    public sealed class EntityService<T>
         where T : Core.CoreEntity
     {
         private IRepository<T> repo;
 
-        public GenericEntityService(IRepository<T> repo)
+        public EntityService(IRepository<T> repo)
         {
             this.repo = repo;
         }

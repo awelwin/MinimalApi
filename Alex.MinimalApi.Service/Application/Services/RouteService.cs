@@ -10,14 +10,14 @@ namespace Alex.MinimalApi.Service.Application.Services
     /// </summary>
     /// <typeparam name="P">Presentation entity type being routed</typeparam>
     /// <typeparam name="C">Core entity type being routed</typeparam>
-    public class GenericRouteService<P, C>
+    public class RouteService<P, C>
         where P : PresentationEntity
         where C : CoreEntity
     {
         private IMapper mapper;
-        private GenericEntityService<C> entityService;
+        private EntityService<C> entityService;
 
-        public GenericRouteService(IMapper mapper, GenericEntityService<C> entityService)
+        public RouteService(IMapper mapper, EntityService<C> entityService)
         {
             this.mapper = mapper;
             this.entityService = entityService;

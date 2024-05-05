@@ -8,14 +8,14 @@ using System.Linq.Expressions;
 
 namespace Alex.MinimalApi.Service.Infrastructure.Repository
 {
-    public class GenericRepository<CoreType, EFType> : IRepository<CoreType>
+    public class Repository<CoreType, EFType> : IRepository<CoreType>
         where CoreType : class, ICoreEntity
         where EFType : class, IRepositoryEntity
     {
         protected internal MinimalApiDbContext _context;
         protected internal IMapper _mapper;
 
-        public GenericRepository(MinimalApiDbContext context, IMapper mapper)
+        public Repository(MinimalApiDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

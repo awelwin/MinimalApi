@@ -47,9 +47,9 @@ namespace Alex.MinimalApi.Test
                             Lastname = EXPECTED_LASTNAME,
                             Age = EXPECTED_AGE
                         }));
-            GenericEntityService<Core.Employee> in_employeeService = new GenericEntityService<Core.Employee>(in_repo.Object);
+            EntityService<Core.Employee> in_employeeService = new EntityService<Core.Employee>(in_repo.Object);
 
-            GenericRouteService<Pres.Employee, Core.Employee> employeeRouteService = new GenericRouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_employeeService);
+            RouteService<Pres.Employee, Core.Employee> employeeRouteService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_employeeService);
 
             //ACT
             IResult actual = await employeeRouteService.PostAsync(in_pres_emp);
@@ -71,8 +71,8 @@ namespace Alex.MinimalApi.Test
 
             //ARRANGE
             var in_repo = new Mock<IRepository<Core.Employee>>();
-            var in_empService = new GenericEntityService<Core.Employee>(in_repo.Object);
-            GenericRouteService<Pres.Employee, Core.Employee> employeeRouteService = new GenericRouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_empService);
+            var in_empService = new EntityService<Core.Employee>(in_repo.Object);
+            RouteService<Pres.Employee, Core.Employee> employeeRouteService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_empService);
 
             //ACT
             IResult actual = await employeeRouteService.PostAsync(null!);

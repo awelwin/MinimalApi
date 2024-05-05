@@ -10,7 +10,7 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
     /// </summary>
     /// <typeparam name="P">Presentation entity</typeparam>
     /// <typeparam name="C">CoreEntity</typeparam>
-    public class GenericRouteHandler<P, C> //: IRouteHandler
+    public class RouteHandler<P, C> //: IRouteHandler
         where P : Pres.PresentationEntity
         where C : Core.CoreEntity
 
@@ -18,7 +18,7 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
         public static void CreateRoutes(WebApplication app, string routeBase)
         {
             //Route
-            GenericRouteService<P, C> routeservice = app.Services.CreateScope().ServiceProvider.GetService<GenericRouteService<P, C>>()!;
+            RouteService<P, C> routeservice = app.Services.CreateScope().ServiceProvider.GetService<RouteService<P, C>>()!;
             app.MapPost($"/{routeBase}", (P entity) => routeservice.PostAsync(entity))
 
                 //validation

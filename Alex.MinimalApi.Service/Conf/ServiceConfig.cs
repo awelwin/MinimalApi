@@ -35,15 +35,15 @@ namespace Alex.MinimalApi.Service.Configuration
             builder.Services.AddProblemDetails();
 
             //Repositories
-            builder.Services.AddTransient(typeof(IRepository<Core.Notification>), typeof(GenericRepository<Core.Notification, Infrastructure.Repository.EntityFramework.Notification>));
-            builder.Services.AddTransient(typeof(IRepository<Core.Employee>), typeof(GenericRepository<Core.Employee, Infrastructure.Repository.EntityFramework.Employee>));
+            builder.Services.AddTransient(typeof(IRepository<Core.Notification>), typeof(Repository<Core.Notification, Infrastructure.Repository.EntityFramework.Notification>));
+            builder.Services.AddTransient(typeof(IRepository<Core.Employee>), typeof(Repository<Core.Employee, Infrastructure.Repository.EntityFramework.Employee>));
             builder.Services.AddDbContext<MinimalApiDbContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("MinimalApiDb")), ServiceLifetime.Scoped);
 
             //Application services
             builder.Services.AddScoped<EmployeeService>();
             builder.Services.AddScoped<EmployeeRouteService>();
-            builder.Services.AddScoped<GenericEntityService<Core.Employee>>();
-            builder.Services.AddScoped<GenericRouteService<Pres.Employee, Core.Employee>>();
+            builder.Services.AddScoped<EntityService<Core.Employee>>();
+            builder.Services.AddScoped<RouteService<Pres.Employee, Core.Employee>>();
 
             //validation
             builder.Services.AddValidatorsFromAssemblyContaining(typeof(EmployeeValidator)); //register them all at once
