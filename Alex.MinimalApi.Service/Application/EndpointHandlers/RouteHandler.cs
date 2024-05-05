@@ -17,11 +17,11 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
     {
         public static void CreateRoutes(WebApplication app, string routeBase)
         {
+            RouteService<P, C> routeService = app.Services.CreateScope().ServiceProvider.GetService<RouteService<P, C>>()!;
+
             #region Post
 
             //Route
-            RouteService<P, C> routeService = app.Services.CreateScope().ServiceProvider.GetService<RouteService<P, C>>()!;
-
             app.MapPost($"/{routeBase}", (P entity) => routeService.PostAsync(entity))
 
                 //validation
@@ -35,6 +35,27 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
                     op.Summary = $"Create {routeBase}";
                     op.Responses["201"].Description = $"Newly created {routeBase} entity with unique Id";
                     op.Tags = new List<OpenApiTag>() { new() { Name = routeBase } };
+                    return op;
+                });
+
+            #endregion
+
+            #region Put
+
+            //Route
+            app.MapPut("/{routeBase}/{id}", (int id, P entity) => routeService.PutAsync(id, entity))
+
+                //validation - model
+                .AddEndpointFilter<ValidationEndpointFilter<P>>()
+
+                //Documentation
+                .Produces<P>(StatusCodes.Status200OK)
+                .WithOpenApi(op =>
+                {
+                    op.OperationId = $"update-{routeBase}";
+                    op.Summary = $"Update {routeBase}";
+                    op.Responses["200"].Description = $"Updated {routeBase} entity";
+                    op.Tags = new List<OpenApiTag>() { new() { Name = "{routeBase}" } };
                     return op;
                 });
 

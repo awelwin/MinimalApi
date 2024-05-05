@@ -12,9 +12,15 @@
         {
             this.repo = repo;
         }
+
         public async Task<T> CreateAsync(T entity)
         {
             return await repo.CreateAsync(entity);
+        }
+
+        public async Task<T> UpdateAsync(T entity)
+        {
+            return await repo.UpdateAsync(entity);
         }
 
         public async Task<List<T>> GetAsync()

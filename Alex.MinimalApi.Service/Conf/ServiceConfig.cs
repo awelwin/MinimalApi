@@ -40,8 +40,6 @@ namespace Alex.MinimalApi.Service.Configuration
             builder.Services.AddDbContext<MinimalApiDbContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("MinimalApiDb")), ServiceLifetime.Scoped);
 
             //Application services
-            builder.Services.AddScoped<EmployeeService>();
-            builder.Services.AddScoped<EmployeeRouteService>();
             builder.Services.AddScoped<EntityService<Core.Employee>>();
             builder.Services.AddScoped<RouteService<Pres.Employee, Core.Employee>>();
 

@@ -41,6 +41,23 @@ namespace Alex.MinimalApi.Service.Application.Services
         }
 
         /// <summary>
+        /// Handle update entity Route
+        /// </summary>
+        /// <param name="entity">entity to update</param>
+        /// <returns>BadRequest or copy of new entity once updated</returns>
+        public async Task<IResult> PutAsync(int id, P entity)
+        {
+            if (entity == null || id < 1)
+                return Results.BadRequest();
+
+            C input = mapper.Map<C>(entity);
+            var result = await entityService.UpdateAsync(input);
+            P output = mapper.Map<P>(result);
+            string uri = $"/{entity.GetType().Name}";
+            return Results.Ok<P>(output);
+        }
+
+        /// <summary>
         /// Handle Get entities Route
         /// </summary>
         /// <returns>All entities</returns>

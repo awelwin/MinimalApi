@@ -11,14 +11,14 @@ using Pres = Alex.MinimalApi.Service.Presentation;
 namespace Alex.MinimalApi.Test
 {
     [TestClass]
-    public class Test_GenericRouteService
+    public class Test_RouteService
     {
         IMapper? In_Mapper { get; set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public Test_GenericRouteService()
+        public Test_RouteService()
         {
             this.In_Mapper = AutoMapperConfig.ConfigureMaps();
         }
@@ -85,7 +85,7 @@ namespace Alex.MinimalApi.Test
         }
 
         [TestMethod]
-        public async Task GetAsync_MultipleExists_ReturnsList()
+        public async Task GetAsync_MultipleExists_ReturnsEntities()
         {
 
             //ARRANGE
@@ -119,7 +119,7 @@ namespace Alex.MinimalApi.Test
         }
 
         [TestMethod]
-        public async Task GetAsync_EmployeesExist_ReturnsEmployees()
+        public async Task GetAsync_EmployeesExist_ReturnsEntities()
         {
 
             //ARRANGE
@@ -188,7 +188,7 @@ namespace Alex.MinimalApi.Test
         }
 
         [TestMethod()]
-        public async Task GetAsync_Found_ReturnsEmployee()
+        public async Task GetAsync_Found_ReturnsEntity()
         {
             //ARANGE
             int in_id = 1;
@@ -214,6 +214,57 @@ namespace Alex.MinimalApi.Test
             Assert.IsNotNull(okResult); //return 200 OK result
             Assert.IsNotNull(okResult.Value); //returns content
             Assert.IsInstanceOfType(okResult.Value, typeof(Pres.Employee)); //returns correct content type
+        }
+
+        [TestMethod()]
+        public async Task PutAsync_Success_ReturnsEntity()
+        {
+
+            //ARANGE
+            const int EXPECTED_ID = 3;
+            const string EXPECTED_FIRSTNAME = "firstname";
+            const string EXPECTED_LASTNAME = "lastname";
+            const int EXPECTED_AGE = 23;
+
+            Pres.Employee in_pres_emp = new Pres.Employee() { Id = EXPECTED_ID, Age = EXPECTED_AGE, Firstname = EXPECTED_FIRSTNAME, Lastname = EXPECTED_LASTNAME };
+            Core.Employee in_core_emp = new Core.Employee() { Id = EXPECTED_ID, Age = EXPECTED_AGE, Firstname = EXPECTED_FIRSTNAME, Lastname = EXPECTED_LASTNAME };
+
+            var in_repo = new Mock<IRepository<Core.Employee>>(); //mock IRepository.CreateAsunc() dependency
+            var in_empService = new EntityService<Core.Employee>(in_repo.Object);
+            RouteService<Pres.Employee, Core.Employee> routeService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_empService);
+            in_repo.Setup(x => x.UpdateAsync(It.IsAny<Core.Employee>()))
+                    .Returns(Task.FromResult<Core.Employee>(in_core_emp));
+
+            //ACT
+            IResult actual = await routeService.PutAsync(EXPECTED_ID, in_pres_emp);
+
+
+            //ASSERT
+            Assert.IsNotNull(actual); // returns result
+            var okResult = (Ok<Pres.Employee>)actual;
+            Assert.IsNotNull(okResult); //return 200 OK result
+            Assert.IsNotNull(okResult.Value); //returns content
+            Assert.IsInstanceOfType(okResult.Value, typeof(Pres.Employee)); //returns correct content type
+            Assert.AreEqual(EXPECTED_ID, ((Pres.Employee)okResult.Value).Id);
+        }
+
+        [TestMethod()]
+        public async Task PutAsync_badRequest_ReturnsBadRequest()
+        {
+
+            //ARRANGE
+            var in_repo = new Mock<IRepository<Core.Employee>>();
+            var in_empService = new EntityService<Core.Employee>(in_repo.Object);
+            RouteService<Pres.Employee, Core.Employee> routeService = new RouteService<Pres.Employee, Core.Employee>(this.In_Mapper!, in_empService);
+
+            //ACT
+            IResult actual = await routeService.PutAsync(0, null!);
+
+            //ASSERT
+            Assert.IsNotNull(actual);
+            var badRequestResult = (BadRequest)actual;
+            Assert.IsNotNull(badRequestResult); //correct result type
+            Assert.IsInstanceOfType(badRequestResult, typeof(BadRequest));
         }
     }
 }

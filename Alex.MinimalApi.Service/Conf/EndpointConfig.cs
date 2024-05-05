@@ -13,7 +13,6 @@ namespace Alex.MinimalApi.Service.Configuration
         public static void Configure(WebApplication app)
         {
             RouteHandler<Pres.Employee, Core.Employee>.CreateRoutes(app, "Employee");
-            EmployeeRouteHandler.CreateRoutes(app);
             NotificationRouteHandler.CreateRoutes(app);
             PublicDocumentRouteHandler.CreateRoutes(app);
         }
