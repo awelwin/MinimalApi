@@ -24,7 +24,7 @@ namespace Alex.MinimalApi.Test
         }
 
         [TestMethod()]
-        public async Task PostEntityAsync_Success_ReturnsEntity()
+        public async Task PostAsync_Success_ReturnsEntity()
         {
 
             //ARANGE
@@ -66,7 +66,7 @@ namespace Alex.MinimalApi.Test
         }
 
         [TestMethod()]
-        public async Task PostEntityAsync_WithNoBody_ReturnsBadRequest()
+        public async Task PostAsync_WithNoBody_ReturnsBadRequest()
         {
 
             //ARRANGE
