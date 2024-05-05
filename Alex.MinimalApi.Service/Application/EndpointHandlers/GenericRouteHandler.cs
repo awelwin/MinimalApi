@@ -19,7 +19,7 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
         {
             //Route
             GenericRouteService<P, C> routeservice = app.Services.CreateScope().ServiceProvider.GetService<GenericRouteService<P, C>>()!;
-            app.MapPost($"/{routeBase}", (P entity) => routeservice.PostEntityAsync(entity))
+            app.MapPost($"/{routeBase}", (P entity) => routeservice.PostAsync(entity))
 
                 //validation
                 .AddEndpointFilter<ValidationEndpointFilter<P>>()

@@ -28,7 +28,7 @@ namespace Alex.MinimalApi.Service.Application.Services
         /// </summary>
         /// <param name="entity">entity to persist</param>
         /// <returns>BadRequest or copy of new entity once created</returns>
-        public async Task<IResult> PostEntityAsync(P entity)
+        public async Task<IResult> PostAsync(P entity)
         {
             if (entity == null)
                 return Results.BadRequest();
