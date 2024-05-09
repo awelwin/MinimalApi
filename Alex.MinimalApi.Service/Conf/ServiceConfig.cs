@@ -54,6 +54,19 @@ namespace Alex.MinimalApi.Service.Configuration
                     builder.Configuration.GetSection("AzureBlobPublicDocumentService").GetValue<string>("container")!,
                     builder.Configuration.GetSection("AzureBlobPublicDocumentService").GetValue<string>("host")!)); //key
 
+            //CORS FOR Development
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("localhostCorsPolicy",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:4200");
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.AllowCredentials();
+                });
+            });
+
         }
     }
 }
