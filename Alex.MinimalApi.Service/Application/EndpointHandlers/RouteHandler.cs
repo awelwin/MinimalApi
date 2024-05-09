@@ -43,6 +43,7 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
             #region Put
 
             //Route
+
             app.MapPut("/{routeBase}/{id}", (int id, P entity) => routeService.PutAsync(id, entity))
 
                 //validation - model
@@ -55,7 +56,7 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
                     op.OperationId = $"update-{routeBase}";
                     op.Summary = $"Update {routeBase}";
                     op.Responses["200"].Description = $"Updated {routeBase} entity";
-                    op.Tags = new List<OpenApiTag>() { new() { Name = "{routeBase}" } };
+                    op.Tags = new List<OpenApiTag>() { new() { Name = $"{routeBase}" } };
                     return op;
                 });
 
@@ -95,6 +96,7 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
                 });
 
             #endregion
+
         }
     }
 }
