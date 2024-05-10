@@ -63,6 +63,9 @@ Content-Type: application/json
 GET {{Alex.MinimalApi.Service_HostAddress}}/Employee
 ###
 GET {{Alex.MinimalApi.Service_HostAddress}}/Employee/2010
+
+###
+DELETE {{Alex.MinimalApi.Service_HostAddress}}/Employee/2006
 ###
 
 ///NOTIFICATION ---------------------------------------

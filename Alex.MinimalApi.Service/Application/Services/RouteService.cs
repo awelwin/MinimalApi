@@ -86,5 +86,15 @@ namespace Alex.MinimalApi.Service.Application.Services
                 return Results.Ok(output);
             }
         }
+
+        /// <summary>
+        /// Handle Delete entity Route
+        /// </summary>
+        /// <returns>200 ok</returns>
+        public async Task<IResult> DeleteAsync(int id)
+        {
+            await entityService.DeleteAsync(id);
+            return Results.Ok();
+        }
     }
 }

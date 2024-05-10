@@ -97,6 +97,25 @@ namespace Alex.MinimalApi.Service.Application.EndpointHandlers
 
             #endregion
 
+            #region Delete
+            //Route
+            app.MapDelete("/{routeBase}/{id}", (int id) => routeService.DeleteAsync(id))
+
+                //Documentation
+                .Produces<List<P>>(StatusCodes.Status200OK)
+                .WithOpenApi(op =>
+                {
+                    op.OperationId = $"Delete-{routeBase}";
+                    op.Summary = $"Delete {routeBase}";
+                    op.Responses["200"].Description = "Resource deleted";
+                    op.Tags = new List<OpenApiTag>() { new() { Name = $"{routeBase}" } };
+                    return op;
+                });
+
+            #endregion
+
+
+
         }
     }
 }

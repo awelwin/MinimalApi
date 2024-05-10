@@ -32,5 +32,10 @@
         {
             return await repo.GetAsync(id);
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            await repo.DeleteAsync(id);
+        }
     }
 }
