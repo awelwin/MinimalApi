@@ -82,6 +82,8 @@ Due to current limitations with minimalAPi I use manual model validation using F
 Any new entity can be added to the system without implementing a specific repository implementation via use of GenericRepository<<T>> wich provides all the usual CRUD Operations out of the box. Just add a route and corresponding DTO object.
 
 
-
-
+### Docerize Me
+dotnet publish -c release
+docker build -t api c:\projects\alex\minimalApi\alex.minimalapi.service\
+docker create --name core-api api
 
