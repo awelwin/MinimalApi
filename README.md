@@ -12,7 +12,7 @@ Pls update to use latest <em><strong>.NET Core 8</strong></em> or greater
 
 > https://www.docker.com/products/docker-desktop/
 > docker pull mcr.microsoft.com/azure-sql-edge
->docker run -e "ACCEPT_EULA=1" -e "MSSQL_SA_PASSWORD=MinApiPass1" -e "MSSQL_PID=Developer" -e "MSSQL_USER=SA" -p 1433:1433 -d --name=sql mcr.microsoft.com/azure-sql-edge
+>docker run -e "ACCEPT_EULA=1" -e "MSSQL_SA_PASSWORD=MinApiPass1" -e "MSSQL_PID=Developer" -e "MSSQL_USER=SA" -p 1433:1433 -d --name=sql mcr.microsoft.com/azure-sql-edge 
 
 NOTE: user and pass from appsettings.json 
 
@@ -82,8 +82,9 @@ Due to current limitations with minimalAPi I use manual model validation using F
 Any new entity can be added to the system without implementing a specific repository implementation via use of GenericRepository<<T>> wich provides all the usual CRUD Operations out of the box. Just add a route and corresponding DTO object.
 
 
-### Docerize Me
-dotnet publish -c release
-docker build -t api c:\projects\alex\minimalApi\alex.minimalapi.service\
-docker create --name core-api api
+## Docerize Me (for consumers of API that dont want to host visual studio debug session give them a static docker version)
+dotnet publish -c Debug
+docker build -t minapi c:\projects\alex\minimalApi\alex.minimalapi.service\   <---**ENTER PATH TO YOUR DOCKER FILE **
+docker run --name minapicontainer -p 4040:4040 minapi
+browse to  http://localhost:4040/api/v1/employee
 

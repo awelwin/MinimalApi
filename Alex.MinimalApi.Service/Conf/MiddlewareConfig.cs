@@ -9,18 +9,20 @@
         /// <param name="app">WebApplication</param>
         public static void Configure(WebApplication app)
         {
+            if (!app.Environment.IsEnvironment("developmentDocker"))
+                app.UseHttpsRedirection();
 
-            app.UseHttpsRedirection();
             app.UsePathBase("/api/v1");
             app.UseRouting();
             app.UseExceptionHandler();
 
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("developmentDocker"))
             {
+                app.UseCors("localhostCorsPolicy");
                 app.UseSwagger();
                 app.UseSwaggerUI();
                 app.UseDeveloperExceptionPage();
-                app.UseCors("localhostCorsPolicy");
+
 
             }
         }

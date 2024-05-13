@@ -1,7 +1,6 @@
 using Alex.MinimalApi.Service.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddJsonFile(@".\Conf\appsettings.json");
 
 //Dependency Injection IOC
 ServiceConfig.Configure(builder);
