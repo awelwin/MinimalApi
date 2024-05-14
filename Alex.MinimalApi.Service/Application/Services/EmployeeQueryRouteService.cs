@@ -25,7 +25,7 @@ namespace Alex.MinimalApi.Service.Application.Services
         public async Task<List<EmployeeSearchQueryResult>> EmployeeSearch(string input)
         {
             //validate params
-            if (string.IsNullOrEmpty(input))
+            if (string.IsNullOrWhiteSpace(input))
                 throw new ArgumentNullException("input parameter must be specified");
 
 
