@@ -1,4 +1,4 @@
-﻿namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
+﻿namespace Alex.MinimalApi.Service.Infrastructure.EntityFramework
 {
     /// <summary>
     /// Tax File Record

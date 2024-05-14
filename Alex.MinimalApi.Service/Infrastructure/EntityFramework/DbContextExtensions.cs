@@ -1,8 +1,7 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
+namespace Alex.MinimalApi.Service.Infrastructure.EntityFramework
 {
     /// <summary>
     /// Extensions for DbContext
@@ -11,7 +10,7 @@ namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
     {
         public static T DeleteGraph<T>(this DbContext context, T newEntity, T existingEntity) where T : class
         {
-            return DeleteGraph(context, newEntity, existingEntity, null!);
+            return context.DeleteGraph(newEntity, existingEntity, null!);
         }
 
         /// <summary>
@@ -108,7 +107,7 @@ namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
                     {
                         // the navigation is not a list
 #pragma warning disable CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
-                        DeleteGraph(context, updatedNavItem, existNavItem.CurrentValue, existingEntry.Metadata.ClrType.FullName!);
+                        context.DeleteGraph(updatedNavItem, existNavItem.CurrentValue, existingEntry.Metadata.ClrType.FullName!);
 #pragma warning restore CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
                     }
                 }//--loop

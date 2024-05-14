@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
+namespace Alex.MinimalApi.Service.Infrastructure.EntityFramework
 {
     public class MinimalApiDbContext : DbContext
     {

@@ -1,4 +1,4 @@
-﻿using Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework;
+﻿using Alex.MinimalApi.Service.Infrastructure.EntityFramework;
 using AutoMapper;
 using Pres = Alex.MinimalApi.Service.Presentation;
 

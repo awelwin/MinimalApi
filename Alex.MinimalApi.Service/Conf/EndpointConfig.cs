@@ -15,6 +15,7 @@ namespace Alex.MinimalApi.Service.Configuration
             RouteHandler<Pres.Employee, Core.Employee>.CreateRoutes(app, "Employee");
             NotificationRouteHandler.CreateRoutes(app);
             PublicDocumentRouteHandler.CreateRoutes(app);
+            QueryRouteHandler.CreateRoutes(app);
         }
     }
 }

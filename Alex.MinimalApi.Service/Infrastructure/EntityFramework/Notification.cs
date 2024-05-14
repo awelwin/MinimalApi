@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework
+namespace Alex.MinimalApi.Service.Infrastructure.EntityFramework
 {
     public class Notification : RepositoryEntity
     {

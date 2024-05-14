@@ -1,12 +1,12 @@
 ﻿using Alex.MinimalApi.Service.Core;
 using Alex.MinimalApi.Service.Core.Services;
-using Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework;
+using Alex.MinimalApi.Service.Infrastructure.EntityFramework;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Alex.MinimalApi.Service.Infrastructure.Repository
+namespace Alex.MinimalApi.Service.Infrastructure
 {
     public class Repository<CoreType, EFType> : IRepository<CoreType>
         where CoreType : class, ICoreEntity

@@ -4,8 +4,8 @@ using Alex.MinimalApi.Service.Application.Validators;
 using Alex.MinimalApi.Service.Core;
 using Alex.MinimalApi.Service.Core.Services;
 using Alex.MinimalApi.Service.Infrastructure;
-using Alex.MinimalApi.Service.Infrastructure.Repository;
-using Alex.MinimalApi.Service.Infrastructure.Repository.EntityFramework;
+using Alex.MinimalApi.Service.Infrastructure.EntityFramework;
+using Alex.MinimalApi.Service.Infrastructure.Query;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -34,14 +34,18 @@ namespace Alex.MinimalApi.Service.Configuration
             builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
             builder.Services.AddProblemDetails();
 
-            //Repositories
-            builder.Services.AddTransient(typeof(IRepository<Core.Notification>), typeof(Repository<Core.Notification, Infrastructure.Repository.EntityFramework.Notification>));
-            builder.Services.AddTransient(typeof(IRepository<Core.Employee>), typeof(Repository<Core.Employee, Infrastructure.Repository.EntityFramework.Employee>));
+            //Infrastructure Repositories
+            builder.Services.AddTransient(typeof(IRepository<Core.Notification>), typeof(Repository<Core.Notification, Infrastructure.EntityFramework.Notification>));
+            builder.Services.AddTransient(typeof(IRepository<Core.Employee>), typeof(Repository<Core.Employee, Infrastructure.EntityFramework.Employee>));
             builder.Services.AddDbContext<MinimalApiDbContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("MinimalApiDb")), ServiceLifetime.Scoped);
+
+            //Infrastructure Query Services
+            builder.Services.AddTransient<EmployeeQueryService>();
 
             //Application services
             builder.Services.AddScoped<EntityService<Core.Employee>>();
             builder.Services.AddScoped<RouteService<Pres.Employee, Core.Employee>>();
+            builder.Services.AddScoped<EmployeeQueryRouteService>();
 
             //validation
             builder.Services.AddValidatorsFromAssemblyContaining(typeof(EmployeeValidator)); //register them all at once
