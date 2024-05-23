@@ -64,7 +64,7 @@ namespace Alex.MinimalApi.Service.Configuration
                 options.AddPolicy("localhostCorsPolicy",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:4200");
+                    builder.WithOrigins(["http://localhost:4200", "http://localhost:8100"]);
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
                     builder.AllowCredentials();
