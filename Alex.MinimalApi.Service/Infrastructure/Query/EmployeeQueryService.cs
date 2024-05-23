@@ -21,7 +21,7 @@ namespace Alex.MinimalApi.Service.Infrastructure.Query
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public async Task<List<EmployeeSearchQueryResult>> Search(string input)
         {
-            throw new ArgumentException();
+
             if (String.IsNullOrEmpty(input))
                 throw new ArgumentOutOfRangeException("input parameter missing");
 
