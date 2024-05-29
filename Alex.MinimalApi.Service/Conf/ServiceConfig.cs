@@ -37,7 +37,7 @@ namespace Alex.MinimalApi.Service.Configuration
             //Infrastructure Repositories
             builder.Services.AddTransient(typeof(IRepository<Core.Notification>), typeof(Repository<Core.Notification, Infrastructure.EntityFramework.Notification>));
             builder.Services.AddTransient(typeof(IRepository<Core.Employee>), typeof(Repository<Core.Employee, Infrastructure.EntityFramework.Employee>));
-            builder.Services.AddDbContext<MinimalApiDbContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("MinimalApiDb")), ServiceLifetime.Scoped);
+            builder.Services.AddDbContext<MinimalApiDbContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("MinimalApiDb")), ServiceLifetime.Transient);
 
             //Infrastructure Query Services
             builder.Services.AddTransient<EmployeeQueryService>();
