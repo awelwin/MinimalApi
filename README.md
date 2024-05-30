@@ -9,17 +9,20 @@ Pls update to use latest <em><strong>.NET Core 8</strong></em> or greater
 
 - SQLServer
 - Azurite emulator - Azure Blog Storage
+- .net MinimalApi (for ui dev if you dont want to launch visual studio)
 
 > https://www.docker.com/products/docker-desktop/
-> docker pull mcr.microsoft.com/azure-sql-edge
->docker run -e "ACCEPT_EULA=1" -e "MSSQL_SA_PASSWORD=MinApiPass1" -e "MSSQL_PID=Developer" -e "MSSQL_USER=SA" -p 1433:1433 -d --name=sql mcr.microsoft.com/azure-sql-edge 
+docker-compose up --build
 
-NOTE: user and pass from appsettings.json 
+## Configurations
+development - (local visual studio debug)
+http://localhost:4040/api/v1/employee
+http://localhost:5058/swagger/
 
-### --- Azurite emulator ---
+developmentDocker - docker deployed debug
+http://localhost:4040/api/v1/employee
 
-> docker pull mcr.microsoft.com/azure-storage/azurite
-> docker run -p 10000:10000 -p 10001:10001 -p 10002:10002 mcr.microsoft.com/azure-storage/azurite
+Production - ToDo
 
 ## :) RUN ME :)
 
@@ -32,10 +35,6 @@ NOTE: user and pass from appsettings.json
  / root folder
 
 >dotnet test
-
-VIEW API DOCS
-
-> http://localhost:5058/swagger/ to see API Documentation
 
 MAKE REQUESTS
 see 'requests.http' file sample requests you can execute
@@ -81,10 +80,4 @@ Due to current limitations with minimalAPi I use manual model validation using F
 
 Any new entity can be added to the system without implementing a specific repository implementation via use of GenericRepository<<T>> wich provides all the usual CRUD Operations out of the box. Just add a route and corresponding DTO object.
 
-
-## Docerize Me (for consumers of API that dont want to host visual studio debug session give them a static docker version)
-dotnet publish -c Debug
-docker build -t minapi c:\projects\alex\minimalApi\alex.minimalapi.service\   <---**ENTER PATH TO YOUR DOCKER FILE **
-docker run --name minapicontainer -p 4040:4040 minapi
-browse to  http://localhost:4040/api/v1/employee
 
