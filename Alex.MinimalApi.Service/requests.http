@@ -60,6 +60,26 @@ Content-Type: application/json
 
 ###
 
+PUT {{Alex.MinimalApi.Service_HostAddress}}/Employee/2008
+Content-Type: application/json
+
+{"firstname":"Donnn",
+"lastname":"lemon",
+"age":46,
+"taxFile":{
+  "alias":"December Taxfilee",
+  "employeeId":2008,
+  "taxFileRecords":[],
+  "id":2008,
+  "created":"2024-06-05T09:59:59.87",
+  "updated":"2024-06-24T23:26:18.7359742"
+},
+"id":2008,
+"created":"2024-06-05T09:59:59.8566667",
+"updated":"2024-06-24T23:26:18.7359875"}
+
+###
+
 GET {{Alex.MinimalApi.Service_HostAddress}}/Employee
 ###
 GET {{Alex.MinimalApi.Service_HostAddress}}/Employee/2010
