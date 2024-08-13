@@ -74,8 +74,7 @@ Data access via repository pattern
 Due to current limitations with minimalAPi I use manual model validation using FluentValidation as recommended by Microsoft. NOTE: This is likely to change in future 
 > see https://www.nuget.org/packages/FluentValidation/
  
- I would like to see a declarative implemtation added like System.ComponentModel.DataAnnotations that we all used in MVC style apps.
-
+ 
 ## Generic Repositories
 
 Any new entity can be added to the system without implementing a specific repository implementation via use of GenericRepository<<T>> wich provides all the usual CRUD Operations out of the box. Just add a route and corresponding DTO object.
